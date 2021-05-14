@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <el-input placeholder="请输入cron表达式" v-model="cronData" @input="inputChange">
+    <el-input placeholder="请输入cron表达式" v-model="inputValue" @input="inputChange">
       <i slot="suffix" class="el-input__icon el-icon-date" @click="open"></i>
     </el-input>
 
@@ -68,8 +68,11 @@ import month from "./cron/month";
 import week from "./cron/week";
 import year from "./cron/year";
 export default {
+  model: {
+    prop: "inputValue",
+  },
   props: {
-    value: {
+    inputValue: {
       type: String,
     },
     cron: {
@@ -80,16 +83,12 @@ export default {
       default: false,
     },
   },
-  // value: function (val) {
-  //   return this.cron;
-  // },
   data() {
     return {
       /**
        *   [ Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders]
        *   vue组件中value作为props不允许改，因此定义一个局部变量，并用 prop 的值初始化它
        */
-      cronData: this.value,
       dialogVisibleData: this.dialogVisible,
       activeName: "s",
       sVal: "",
@@ -116,9 +115,14 @@ export default {
       ];
     },
   },
+  watch: {
+    inputValue: function () {
+      this.$emit("cronChange", this.inputValue);
+    },
+  },
   methods: {
     inputChange(val) {
-      this.cronData = val;
+      this.inputValue = val;
       // this.updateVal();
     },
     open() {
@@ -128,7 +132,7 @@ export default {
 
     ok() {
       this.dialogVisibleData = false;
-      this.cronData = this.getCronExpress();
+      this.$emit("cronChange", this.getCronExpress());
     },
 
     getCronExpress() {
@@ -148,10 +152,10 @@ export default {
       return v;
     },
     updateVal() {
-      if (!this.cronData) {
+      if (!this.inputValue) {
         return;
       }
-      let arrays = this.cronData.split(" ");
+      let arrays = this.inputValue.split(" ");
       this.sVal = arrays[0];
       this.mVal = arrays[1];
       this.hVal = arrays[2];

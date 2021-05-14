@@ -1,22 +1,21 @@
 <template>
   <div id="app">
-    <ComponentChild v-model="content"></ComponentChild>
+    <!-- <ComponentChild v-model="content"></ComponentChild> -->
 
-    <!-- <cron :dialogVisible="false" v-model="cronExpress"></cron> -->
+    <cron :dialogVisible="false" v-model="cronExpress" @cronChange="cronChange"></cron>
   </div>
 </template>
 
 <script>
-import ComponentChild from "./components/ComponentChild";
+// import ComponentChild from "./components/ComponentChild";
 
 import cron from "./components/vue-cron/cron";
 export default {
   name: "App",
   mounted() {
-    console.info("wwwww");
     let _this = this;
     setTimeout(() => {
-      _this.content = "w1wwwwwwwwww";
+      _this.cronExpress = "0 0 3 1 * ? *";
     }, 500);
   },
   data() {
@@ -26,8 +25,14 @@ export default {
       dialogVisible: false,
     };
   },
+  methods: {
+    cronChange(val) {
+      console.info("aas" + val);
+      this.cronExpress = val;
+    },
+  },
   components: {
-    ComponentChild,
+    // ComponentChild,
     cron,
   },
 };
