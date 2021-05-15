@@ -2,7 +2,13 @@
   <div id="app">
     <!-- <ComponentChild v-model="content"></ComponentChild> -->
 
-    <cron :dialogVisible="false" v-model="cronExpress" @cronChange="cronChange"></cron>
+    <cron
+      :cronDisable="cronDisable"
+      v-model="cronExpress"
+      @cronChange="cronChange"
+    ></cron>
+    <el-button type="primary" @click="submitForm">提交表单</el-button>
+    <el-button type="primary" @click="ban">禁止使用</el-button>
   </div>
 </template>
 
@@ -14,20 +20,27 @@ export default {
   name: "App",
   mounted() {
     let _this = this;
+    _this.cronExpress = "0 0 3 1 * ? *";
+
     setTimeout(() => {
-      _this.cronExpress = "0 0 3 1 * ? *";
+      _this.cronExpress = "0 0 3 2 * ? *";
     }, 500);
   },
   data() {
     return {
-      content: "hello",
-      cronExpress: "0 0 2 1 * ? *",
-      dialogVisible: false,
+      cronExpress: "",
+      cronDisable: false,
     };
   },
   methods: {
+    ban() {
+      this.cronDisable = !this.cronDisable;
+    },
+    submitForm() {
+      alert(this.cronExpress);
+    },
     cronChange(val) {
-      console.info("aas" + val);
+      console.info("cronChange:" + val);
       this.cronExpress = val;
     },
   },
