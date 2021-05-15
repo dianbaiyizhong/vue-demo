@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="cron选择器" :visible.sync="dialogVisibleData" width="50%">
+    <el-dialog title="cron选择器" :visible.sync="cronVisibleValue" width="50%">
       <div class="cron">
         <el-tabs v-model="activeName">
           <el-tab-pane label="秒" name="s">
@@ -49,7 +49,6 @@
       placeholder="请输入cron表达式"
       v-model="inputValue"
       :disabled="cronDisable"
-      @input="input"
     >
       <i slot="suffix" class="el-input__icon el-icon-date" @click="open"></i>
     </el-input>
@@ -74,7 +73,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    dialogVisible: {
+    cronVisible: {
       type: Boolean,
       default: false,
     },
@@ -94,7 +93,7 @@ export default {
        *   vue组件中value作为props不允许改，因此定义一个局部变量，并用 prop 的值初始化它
        */
       inputValue: this.value,
-      dialogVisibleData: this.dialogVisible,
+      cronVisibleValue: this.cronVisible,
       activeName: "s",
       sVal: "",
       mVal: "",
@@ -121,15 +120,17 @@ export default {
     },
   },
   methods: {
-
-
     open() {
-      this.dialogVisibleData = true;
+      if (this.cronDisable) {
+        return;
+      }
+
+      this.cronVisibleValue = true;
       this.updateVal();
     },
 
     ok() {
-      this.dialogVisibleData = false;
+      this.cronVisibleValue = false;
       this.inputValue = this.getCronExpress();
     },
 
