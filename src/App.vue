@@ -78,9 +78,7 @@ export default {
 .subtitle {
   color: #314b5f;
 }
-.dropzone:hover {
-  background: white;
-}
+
 .dropzone {
   border: 2px dashed #0087f7;
   border-radius: 5px;
