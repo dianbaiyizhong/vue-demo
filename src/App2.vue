@@ -1,14 +1,36 @@
 <template>
   <div id="app">
-    <vue-dropzone ref="vd" v-on:vdropzone-thumbnail="getThumb" v-on:vdropzone-success="dropSuccess" v-on:vdropzone-sending="sendingEvent" v-on:vdropzone-file-added="addFileEvent" id="dropzone" :options="dropzoneOptions" :useCustomSlot=true>
-      <div style="width:100%;height:100%;position:relative;display: flex;justify-content: center;align-items: center;">
-        <img style="position:absolute;left:0px;bottom:0px;" src="./assets/Hadoop.svg">
+    <vue-dropzone
+      @vdropzone-file-added="addFileEvent"
+      @vdropzone-upload-progress="uploadProgress"
+      ref="vd"
+      id="dropzone"
+      :options="dropzoneOptions"
+      :useCustomSlot="true"
+    >
+      <div
+        style="
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <img
+          style="position: absolute; left: 0px; bottom: 0px"
+          src="./assets/Hadoop.svg"
+        />
         <div class="dropzone-custom-content">
-          <h3 class="dropzone-custom-title">Drag and drop to upload content!</h3>
-          <div class="subtitle">...or click to select a file from your computer</div>
+          <h3 class="dropzone-custom-title">
+            Drag and drop to upload content!
+          </h3>
+          <div class="subtitle">
+            ...or click to select a file from your computer
+          </div>
         </div>
       </div>
-
     </vue-dropzone>
   </div>
 </template>
@@ -28,41 +50,28 @@ export default {
         url: "http://localhost:2408/task/upload",
         thumbnailWidth: 200,
         thumbnailHeight: 200,
-        maxFilesize: 1, // 单位：MB
+        maxFilesize: 10000, // 单位：MB
         maxFiles: 1,
         addRemoveLinks: true,
         dictRemoveFile: "移除文件",
         dictFileTooBig:
           "文件大小过大 ({{filesize}}MiB). 最大限制: {{maxFilesize}}MiB.",
-        autoProcessQueue: true,
+        autoProcessQueue: false,
 
         accept: function (file, done) {
           // done("输入错误信息")
           done();
         },
-        // success: function (file, response) {
-        //   console.info(file);
-        //   // this.createThumbnailFromUrl(file, "/assets/Hadoop.svg");
-        //  this.$refs.vd.emit("thumbnail", file, "./assets/Hadoop.svg");
-        // },
       },
     };
   },
   methods: {
+    uploadProgress(file, progress, bytesSent) {
+      console.info("wwwwwww---" + progress);
+    },
+
     sendingEvent(file, xhr, formData) {
-      formData.append("paramName", "some value or other");
-    },
-    dropSuccess(file, response) {
-      // console.info(this.$refs.vd);
-      //  this.$refs.vd.$emit("thumbnail", file, "./assets/Hadoop.svg");
-      // this.createThumbnailFromUrl(file, "/assets/Hadoop.svg");
-    },
-    getThumb(file, dataUrl) {
-      console.info();
-    },
-    addFileEvent(file) {
-      console.info(file.previewElement.querySelector("img"));
-      file.previewElement.querySelector("img").src = "/Hadoop.svg";
+      // formData.append("paramName", "some value or other");
       // let configs = {
       //   headers: { "Content-Type": "multipart/form-data" },
       // };
@@ -73,6 +82,45 @@ export default {
       //   .then(function () {
       //     console.info("complete....");
       //   });
+    },
+    dropSuccess(file, response) {
+      // console.info(this.$refs.vd);
+      //  this.$refs.vd.$emit("thumbnail", file, "./assets/Hadoop.svg");
+      // this.createThumbnailFromUrl(file, "/assets/Hadoop.svg");
+    },
+    getThumb(file, dataUrl) {
+      // console.info();
+    },
+    addFileEvent(file) {
+      let _this = this;
+      // console.info(file.previewElement.querySelector("img"));
+      // file.previewElement.querySelector("img").src = "/Hadoop.svg";
+      let configs = {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          let persent =
+            ((progressEvent.loaded / progressEvent.total) * 100) | 0; //上传进度百分比
+          let span = file.previewElement.querySelector(".dz-upload");
+          span.style.width = persent + "%";
+        },
+      };
+      const data = new FormData();
+      data.append("file", file);
+      axios
+        .post("http://localhost:2408/task/upload", data, configs)
+        .then(function (data) {
+          // file.previewElement.classList.add("dz-error");
+
+
+          // file.previewElement.querySelector(".dz-error-message span").innerHTML='错误了老弟';
+          file.previewElement.classList.add("dz-success");
+        })
+        .catch(function () {
+          file.previewElement.classList.add("dz-error");
+        })
+        .finally(function () {
+          file.previewElement.classList.add("dz-complete");
+        });
     },
   },
   components: {
