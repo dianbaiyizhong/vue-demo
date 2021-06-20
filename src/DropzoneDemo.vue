@@ -1,4 +1,5 @@
 <template>
+
   <div id="app">
     <vue-dropzone @vdropzone-file-added="addFileEvent" ref="vd" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true">
       <div style="
@@ -11,12 +12,14 @@
         ">
         <img style="position: absolute; left: 0px; bottom: 0px" src="./assets/Hadoop.svg" />
         <div class="dropzone-custom-content">
-          <h3 class="dropzone-custom-title">
-            Drag and drop to upload content!
-          </h3>
-          <div class="subtitle">
-            ...or click to select a file from your computer
-          </div>
+          <span style="font-size:24px;color:#393939">
+            <span class="dropzone-custom-title">
+              <font-awesome-icon class="red" :icon="['fas','caret-right']" /> 拖拽jar文件
+            </span> 上传 
+            <span class="subtitle">(或点击)</span> <br/>
+          </span>
+          <i class="fa fa-cloud-upload-alt blue fa-3x"></i>
+          <font-awesome-icon class="blue fa-4x" :icon="['fas','cloud-upload-alt']" />
         </div>
       </div>
     </vue-dropzone>
@@ -26,6 +29,20 @@
 <script>
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
+import Vue from "vue";
+//https://fontawesome.com/v5.15/icons/caret-right?style=solid
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  faCloudUploadAlt,
+  faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faCloudUploadAlt);
+library.add(faCaretRight);
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+
 import axios from "axios";
 
 export default {
@@ -54,7 +71,8 @@ export default {
     addFileEvent(file) {
       let _this = this;
       // console.info(file.previewElement.querySelector("img"));
-      file.previewElement.querySelector("img").src = "/jar-open-file-format.png";
+      file.previewElement.querySelector("img").src =
+        "/jar-open-file-format.png";
       let configs = {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
@@ -91,11 +109,13 @@ export default {
 <style>
 .dropzone-custom-title {
   margin-top: 0;
-  color: #00b782;
+  font-weight: bolder;
+  font-size: 36px;
+  color: #555;
 }
 
 .subtitle {
-  color: #314b5f;
+  color: #777!important;
 }
 
 .dropzone {
@@ -120,5 +140,15 @@ export default {
 }
 .vue-dropzone > .dz-preview .dz-details {
   background-color: rgba(255, 255, 255, 0);
+}
+
+.vue-dropzone .blue {
+  color: #478fca !important;
+  opacity: 0.7;
+  margin-top: 8px;
+}
+
+.vue-dropzone .red {
+  color: #dd5a43 !important;
 }
 </style>
