@@ -1,7 +1,7 @@
 <template>
 
   <div id="app">
-    <vue-dropzone @vdropzone-file-added="addFileEvent" ref="vd" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true">
+    <vue-dropzone @vdropzone-file-added="addFileEvent" @vdropzone-drop="dragOver" ref="vd" id="dropzone" :options="dropzoneOptions" :useCustomSlot="true">
       <div style="
           width: 100%;
           height: 100%;
@@ -15,8 +15,8 @@
           <span style="font-size:24px;color:#393939">
             <span class="dropzone-custom-title">
               <font-awesome-icon class="red" :icon="['fas','caret-right']" /> 拖拽jar文件
-            </span> 上传 
-            <span class="subtitle">(或点击)</span> <br/>
+            </span> 上传
+            <span class="subtitle">(或点击)</span> <br />
           </span>
           <i class="fa fa-cloud-upload-alt blue fa-3x"></i>
           <font-awesome-icon class="blue fa-4x" :icon="['fas','cloud-upload-alt']" />
@@ -68,6 +68,10 @@ export default {
     };
   },
   methods: {
+    dragOver() {
+      // 上传之前清空队列
+      this.$refs.vd.removeAllFiles();
+    },
     addFileEvent(file) {
       let _this = this;
       // console.info(file.previewElement.querySelector("img"));
@@ -115,7 +119,7 @@ export default {
 }
 
 .subtitle {
-  color: #777!important;
+  color: #777 !important;
 }
 
 .dropzone {
