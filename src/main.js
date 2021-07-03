@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './DropzoneDemo.vue'
+import App from './SqlPanel/Index.vue'
 
 Vue.config.productionTip = false
 

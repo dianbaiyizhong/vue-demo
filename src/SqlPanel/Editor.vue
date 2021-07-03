@@ -1,19 +1,26 @@
 <template>
-  <div id="monaco">
+  <div  class="monaco" ref="monaco">
   </div>
 </template>
 
 <script>
 //https://segmentfault.com/a/1190000021935409
 //https://blog.csdn.net/gao_grace/article/details/88890895
-// import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import * as monaco from "monaco-editor";
-import { codemirror } from 'vue-codemirror'
-
 import "monaco-editor/esm/vs/basic-languages/sql/sql.contribution";
-import 'codemirror/addon/hint/anyword-hint.js';
 
 export default {
+  name: "editor",
+  created() {
+    let that = this;
+    setTimeout(function () {
+      that.monacoInstance = monaco.editor.create(that.$refs.monaco, {
+        automaticLayout: true,
+        value: `select * from t where id = 1`,
+        language: "sql",
+      });
+    }, 200);
+  },
   data() {
     return {
       monacoInstance: null,
@@ -58,20 +65,11 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.monacoInstance = monaco.editor.create(
-      document.getElementById("monaco"),
-      {
-        value: `select * from t where id = 1`,
-        language: "sql",
-      }
-    );
-  },
 };
 </script>
 
-<style>
-#monaco {
+<style  scoped>
+.monaco {
   height: 500px;
 }
 </style>
