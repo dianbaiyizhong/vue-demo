@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import App from './SqlPanel/Index.vue'
+// import App from './SqlPanel/Index.vue'
+import App from './ZTree.vue'
 
 Vue.config.productionTip = false
 
