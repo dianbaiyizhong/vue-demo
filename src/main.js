@@ -1,6 +1,7 @@
 import Vue from 'vue'
 // import App from './SqlPanel/Index.vue'
 import App from './ZTree.vue'
+require('./mock');
 
 Vue.config.productionTip = false
 

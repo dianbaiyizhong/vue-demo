@@ -6,9 +6,12 @@
 import $ from "jquery";
 import "ztree";
 import "ztree/css/metroStyle/metroStyle.css";
+import axios from "axios";
+
 export default {
   data() {
     return {
+      zTree: null,
       nodeData: [
         {
           name: "父节点1",
@@ -28,20 +31,26 @@ export default {
           },
         },
         callback: {
-          onClick: this.getFileDesc,
+          onClick: this.loadNode,
           beforeEditName: this.editName,
           onRename: this.zTreeOnRename,
           beforeRename: this.zTreeBeforeRename,
+          onExpand: this.zTreeOnExpand,
         },
       },
     };
   },
   methods: {
+    zTreeOnExpand(event, treeId, treeNode) {
+      alert(treeNode.tId + ", " + treeNode.name);
+    },
+    loadNode(event, treeId, treeNode) {
+      console.info(event + "______" + treeId + "_____" + treeNode);
+    },
     zTreeBeforeRename(treeId, treeNode, newName, isCancel) {
       return false;
     },
     zTreeOnRename: function (event, treeId, treeNode, isCancel) {
-      console.info("ww");
       event.stopImmediatePropagation();
       return true;
     },
@@ -50,8 +59,15 @@ export default {
     },
   },
   mounted() {
+    let that = this;
     let nodeData = this.nodeData;
-    $.fn.zTree.init($("#tree"), this.setting, nodeData);
+    $.fn.zTree.init($("#tree"), this.setting, []);
+    this.zTree = $.fn.zTree.getZTreeObj("tree");
+
+    axios.get("/mock/getList/0").then(function (data) {
+      console.info(nodeData);
+      that.zTree.addNodes(null, data.data.data);
+    });
   },
 };
 </script>
