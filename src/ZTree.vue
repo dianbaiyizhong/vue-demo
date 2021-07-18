@@ -30,6 +30,11 @@ export default {
             enable: true,
           },
         },
+        check: {
+          enable: true,
+          chkStyle: "radio",
+          radioType: "level",
+        },
         callback: {
           onClick: this.loadNode,
           beforeEditName: this.editName,
@@ -42,13 +47,16 @@ export default {
   },
   methods: {
     zTreeOnExpand(event, treeId, treeNode) {
-      alert(treeNode.tId + ", " + treeNode.name);
+      // zTree.reAsyncChildNodes(nodes[i], type, silent);
+
+      // let node = this.zTree.getNodeByParam("id", treeNode.id, null);
+      this.loadData(treeNode);
     },
     loadNode(event, treeId, treeNode) {
       console.info(event + "______" + treeId + "_____" + treeNode);
     },
     zTreeBeforeRename(treeId, treeNode, newName, isCancel) {
-      return false;
+      return true;
     },
     zTreeOnRename: function (event, treeId, treeNode, isCancel) {
       event.stopImmediatePropagation();
@@ -57,6 +65,27 @@ export default {
     editName: function () {
       return true;
     },
+
+    loadData(clickNode) {
+      let that = this;
+
+      if (clickNode) {
+        // 已经加载过的就别再加载了
+        if (that.zTree.getNodeByParam("pid", clickNode.id)) {
+          return;
+        }
+
+        axios.get("/mock/getList/" + clickNode.id).then(function (data) {
+          that.zTree.addNodes(clickNode, data.data.data, true);
+        });
+
+        return;
+      }
+
+      axios.get("/mock/getList/root").then(function (data) {
+        that.zTree.addNodes(null, data.data.data);
+      });
+    },
   },
   mounted() {
     let that = this;
@@ -64,10 +93,11 @@ export default {
     $.fn.zTree.init($("#tree"), this.setting, []);
     this.zTree = $.fn.zTree.getZTreeObj("tree");
 
-    axios.get("/mock/getList/0").then(function (data) {
-      console.info(nodeData);
-      that.zTree.addNodes(null, data.data.data);
-    });
+    // axios.get("/mock/getList/0").then(function (data) {
+    //   console.info(nodeData);
+    //   that.zTree.addNodes(null, data.data.data);
+    // });
+    that.loadData();
   },
 };
 </script>
