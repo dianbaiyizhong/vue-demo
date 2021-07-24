@@ -7,6 +7,7 @@ import $ from "jquery";
 import "ztree";
 import "ztree/css/metroStyle/metroStyle.css";
 import axios from "axios";
+import Vue from "vue";
 
 export default {
   data() {
@@ -20,7 +21,10 @@ export default {
       ],
       setting: {
         view: {
-          showLine: false,
+          addHoverDom: this.addHoverDom,
+          removeHoverDom: this.removeHoverDom,
+
+          showLine: true,
         },
         edit: {
           enable: true,
@@ -46,6 +50,29 @@ export default {
     };
   },
   methods: {
+    removeHoverDom(treeId, treeNode) {
+      $("#" + treeNode.tId + "_add")
+        .unbind()
+        .remove();
+    },
+    addHoverDom(treeId, treeNode) {
+      var aObj = $("#" + treeNode.tId + "_span");
+      if (treeNode.editNameFlag || $("#" + treeNode.tId + "_add").length > 0)
+        return;
+      var addStr =
+        "<span onfocus='this.blur();' treenode_add style title='添加' class='button add' id='" +
+        treeNode.tId +
+        "_add'" +
+        "></span>";
+      console.info(addStr);
+
+      aObj.after(addStr);
+      var btn = $("#" + treeNode.tId + "_add");
+      if (btn)
+        btn.bind("click", function () {
+          alert("diy Button for " + treeNode.name);
+        });
+    },
     zTreeOnExpand(event, treeId, treeNode) {
       // zTree.reAsyncChildNodes(nodes[i], type, silent);
 
