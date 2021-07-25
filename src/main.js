@@ -1,6 +1,6 @@
 import Vue from 'vue'
 // import App from './SqlPanel/Index.vue'
-import App from './ZTree.vue'
+import App from './components/ztree/ZTree.vue'
 require('./mock');
 
 Vue.config.productionTip = false

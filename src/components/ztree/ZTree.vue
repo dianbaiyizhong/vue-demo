@@ -1,5 +1,10 @@
 <template>
-  <ul id="tree" class="ztree"></ul>
+  <div>
+    <ul id="tree" class="ztree"></ul>
+
+    <div id="area"></div>
+
+  </div>
 </template>
 
 <script>
@@ -28,6 +33,11 @@ export default {
         },
         edit: {
           enable: true,
+          drag: {
+            prev: this.prevTree,
+            next: this.nextTree,
+            inner: this.innerTree,
+          },
         },
         data: {
           simpleData: {
@@ -40,6 +50,9 @@ export default {
           radioType: "level",
         },
         callback: {
+          beforeDrag: this.dragTree2Dom,
+          onDrop: this.dropTree2Dom,
+          onDragMove: this.dragMove,
           onClick: this.loadNode,
           beforeEditName: this.editName,
           onRename: this.zTreeOnRename,
@@ -50,6 +63,21 @@ export default {
     };
   },
   methods: {
+    dragMove: function (e, treeId, treeNodes) {},
+    dragTree2Dom(treeId, treeNodes) {
+      return !treeNodes[0].isParent;
+    },
+    prevTree(treeId, treeNodes, targetNode) {
+      return false;
+    },
+    nextTree(treeId, treeNodes, targetNode) {
+      console.info("nextTree");
+      return false;
+    },
+    innerTree(treeId, treeNodes, targetNode) {
+      console.info("innerTree");
+      return false;
+    },
     removeHoverDom(treeId, treeNode) {
       $("#" + treeNode.tId + "_add")
         .unbind()
@@ -125,9 +153,36 @@ export default {
     //   that.zTree.addNodes(null, data.data.data);
     // });
     that.loadData();
+
+    // $("#area").bind("mousedown", MoveTest.bindMouseDown);
   },
 };
 </script>
 
 <style>
+#area {
+  width: 500px;
+  height: 500px;
+  background-color: blue;
+}
+/* .ztree li span.button.pIcon01_ico_open {
+  margin-top: 3px;
+
+  background: url(1_open.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle;
+}
+.ztree li span.button.pIcon01_ico_close {
+  margin-top: 3px;
+  background: url(1_close.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle;
+} */
+
+.ztree li span.button.icon_model_ico_docu {
+  margin-top: 3px;
+  background: url(3d-modeling.png) no-repeat scroll 0 0 transparent;
+  vertical-align: top;
+  *vertical-align: middle;
+}
 </style>
