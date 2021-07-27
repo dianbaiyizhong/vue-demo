@@ -4,6 +4,8 @@
 
     <div id="area"></div>
 
+    <el-button type="primary" @click="expandAll">展开节点</el-button>
+
   </div>
 </template>
 
@@ -13,11 +15,12 @@ import "ztree";
 import "ztree/css/metroStyle/metroStyle.css";
 import axios from "axios";
 import Vue from "vue";
-
+import _ from "lodash";
 export default {
   data() {
     return {
       zTree: null,
+      expandNodes: [],
       nodeData: [
         {
           name: "父节点1",
@@ -58,12 +61,22 @@ export default {
           onRename: this.zTreeOnRename,
           beforeRename: this.zTreeBeforeRename,
           onExpand: this.zTreeOnExpand,
+          onCollapse: this.zTreeOnCollapse,
         },
       },
     };
   },
   methods: {
-    dragMove: function (e, treeId, treeNodes) {},
+    expandAll() {
+      // 展开记忆节点
+      let that = this;
+      console.info(this.expandNodes);
+      this.expandNodes.forEach((item) => {
+        console.info(that.zTree.getNodeByTId(item));
+        that.zTree.expandNode(that.zTree.getNodeByTId(item));
+      });
+    },
+    dragMove(e, treeId, treeNodes) {},
     dragTree2Dom(treeId, treeNodes) {
       return !treeNodes[0].isParent;
     },
@@ -102,10 +115,16 @@ export default {
         });
     },
     zTreeOnExpand(event, treeId, treeNode) {
-      // zTree.reAsyncChildNodes(nodes[i], type, silent);
-
-      // let node = this.zTree.getNodeByParam("id", treeNode.id, null);
+      this.expandNodes.push(treeNode.tId);
+      this.expandNodes = _.uniq(this.expandNodes);
       this.loadData(treeNode);
+      console.info(this.expandNodes);
+    },
+    zTreeOnCollapse(event, treeId, treeNode) {
+      _.remove(this.expandNodes, function (n) {
+        return treeNode.tId == n;
+      });
+      console.info(this.expandNodes);
     },
     loadNode(event, treeId, treeNode) {
       console.info(event + "______" + treeId + "_____" + treeNode);
