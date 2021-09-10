@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "3d-force-graph": "^1.70.2",
+    "@antv/g6": "^3.8.5",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -22,6 +23,7 @@
     "lodash": "^4.17.21",
     "monaco-editor": "^0.25.2",
     "monaco-editor-webpack-plugin": "^4.0.0",
+    "rxjs": "^7.3.0",
     "vue": "^2.6.11",
     "vue-codemirror": "^4.0.6",
     "vue2-dropzone": "^3.6.0",

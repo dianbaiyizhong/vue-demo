@@ -46,4 +46,41 @@ Mock.mock('/mock/getList/0', 'get', {
         },
     ]
 })
+
+
+
+
+
+
+
+Mock.mock('/mock/login', 'get', {
+    'msg': '登录成功',
+    'code': 0,
+    'data': "1"
+})
+
+
+Mock.mock('/mock/getUserInfo', 'get', {
+    'msg': '成功',
+    'code': 0,
+    'data': {
+        userId: "1",
+        userName: "nntk"
+    }
+
+})
+Mock.mock('/mock/getOrder', 'get', {
+    'msg': '成功',
+    'code': 0,
+    'data': [
+        {
+            orderId: "1",
+            goodName: "牙刷"
+        }
+    ]
+
+
+})
+
+
 export default Mock;
