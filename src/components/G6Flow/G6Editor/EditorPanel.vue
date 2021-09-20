@@ -127,11 +127,17 @@ export default {
             "customer-events",
             "add-menu",
             "drag-node",
+            "drag-combo",
+            "collapse-expand-combo",
+            "drag-node-with-combo",
           ],
           mulitSelect: ["mulit-select"],
           addEdge: ["add-edge"],
+
           // moveNode: ["drag-item"],
         },
+        // groupType: "rect",
+        groupByTypes: false,
       });
 
       this.graph.on("drop", (e) => {

@@ -117,7 +117,9 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 type: "customNode",
                 modelState: 1,
                 color: "#1890ff",
-          
+                comboId: 'p1'
+
+
             },
             {
                 id: 'n2',
@@ -126,7 +128,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 type: "customNode",
                 modelState: 2,
                 color: "#1890ff",
-      
+                comboId: 'p1',
             },
             {
                 id: 'n3',
@@ -159,6 +161,14 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 target: 'n4',
             },
         ],
+        combos: [
+
+            {
+                id: "p1",
+                label: "模型依赖分组"
+
+            }
+        ]
 
 
     }

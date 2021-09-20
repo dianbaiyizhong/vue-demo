@@ -125,6 +125,8 @@ const customEdge = {
       },
       afterDraw(cfg, group) {
 
+        console.info(cfg)
+
         // 判断并启动连线动画
         if (cfg.source.getModel().modelState == 1 && cfg.targetNode._cfg.model.modelState == 2) {
           const shape = group.get('children')[0];

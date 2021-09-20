@@ -22,7 +22,7 @@ export default class Editor {
     }
   }
   add(type, item) {
-    console.info(item)
+    // 可以在这里判断是否符合dag
     this.graph.addItem(type, item)
   }
   addEdge(item) {
