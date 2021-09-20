@@ -113,7 +113,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
             {
                 id: 'n1',
                 nodeId: "n1",
-                modelName: "Hive模型",
+                modelName: "Hive模型-KIA入库-智能chinese IT协会数据",
                 type: "customNode",
                 modelState: 1,
                 color: "#1890ff",

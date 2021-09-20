@@ -2,8 +2,65 @@ import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
 import okSvg from "../assets/icons/ok.svg";
 import hiveSvg from "../assets/icons/Hive.svg";
-import loadingSvg from "../assets/icons/loading2.svg";
+import loadingSvg from "../assets/icons/loading3.svg";
+/**
+ * format the string
+ * @param {string} str The origin string
+ * @param {number} maxWidth max width
+ * @param {number} fontSize font size
+ * @return {string} the processed result
+ */
+const fittingString2 = (str, maxWidth, fontSize) => {
+  const ellipsis = '...';
+  const ellipsisLength = G6.Util.getTextSize(ellipsis, fontSize)[0];
+  let currentWidth = 0;
+  let res = str;
+  const pattern = new RegExp('[\u4E00-\u9FA5]+'); // distinguish the Chinese charactors and letters
+  str.split('').forEach((letter, i) => {
+    if (currentWidth > maxWidth - ellipsisLength) return;
+    if (pattern.test(letter)) {
+      // Chinese charactors
+      currentWidth += fontSize;
+    } else {
+      // get the width of single letter according to the fontSize
+      currentWidth += G6.Util.getLetterWidth(letter, fontSize);
+    }
+    if (currentWidth > maxWidth - ellipsisLength) {
+      res = `${str.substr(0, i)}${ellipsis}`;
+    }
+  });
+  return res;
+};
 
+
+
+/**
+ * format the string
+ * @param {string} str The origin string
+ * @param {number} maxWidth max width
+ * @param {number} fontSize font size
+ * @return {string} the processed result
+ */
+const fittingString = (str, maxWidth, fontSize) => {
+  let currentWidth = 0;
+  let res = str;
+  const pattern = new RegExp('[\u4E00-\u9FA5]+'); // distinguish the Chinese charactors and letters
+  str.split('').forEach((letter, i) => {
+    if (currentWidth > maxWidth) return;
+    if (pattern.test(letter)) {
+      // Chinese charactors
+      currentWidth += fontSize;
+    } else {
+      // get the width of single letter according to the fontSize
+      currentWidth += G6.Util.getLetterWidth(letter, fontSize);
+    }
+    if (currentWidth > maxWidth) {
+      let second = `${str.substr(i)}`
+      res = `${str.substr(0, i)}\n` + fittingString2(second, maxWidth, fontSize);
+    }
+  });
+  return res;
+};
 const customNode = {
   init() {
     G6.registerNode("customNode", {
@@ -30,6 +87,8 @@ const customNode = {
             radius: 4
           }
         });
+
+
         group.addShape("rect", {
           attrs: {
             x: offsetX,
@@ -43,25 +102,17 @@ const customNode = {
         });
         group.addShape("image", {
           attrs: {
-            x: offsetX + 16,
-            y: offsetY + 8,
-            width: 20,
-            height: 20,
+            x: offsetX + 6,
+            y: offsetY + 4,
+            width: 28,
+            height: 28,
             img: hiveSvg,
-            parent: mainId
-          }
+            opacity: 1
+
+          },
+          draggable: true,
+
         });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -69,14 +120,13 @@ const customNode = {
           attrs: {
             id: 'modelName_' + uniqueId(),
             x: offsetX + 40,
-            y: offsetY + height / 2,
+            y: 1,
             textAlign: "left",
             textBaseline: "middle",
-            text: cfg.modelName,
-            textOverflow: 'ellipsis',
-            parent: mainId,
-            fontSize: 10,
+            text: fittingString(cfg.modelName, 110, 12),
+            fontSize: 12,
             fill: "#565758",
+            fontFamily: "Microsoft Yahei"
           },
           draggable: true,
 
@@ -207,17 +257,24 @@ const customNode = {
         }
       },
       afterDraw(cfg, group) {
+
+
+
+        const offsetX = 70
+
+
+        // 为状态图标添加一个父节点
         const stateImage = group.addShape("image", {
           attrs: {
-            x: -8,
-            y: -8,
-            width: 16,
-            height: 16,
-            parent: "mainId",
-
+            x: -9 + offsetX,
+            y: -9,
+            width: 18,
+            height: 18,
             img: loadingSvg
           }
         });
+
+
         stateImage.animate(
           {
             // 动画重复
@@ -228,16 +285,20 @@ const customNode = {
               // 当前矩阵
               const matrix = G6.Util.mat3.create();
               // 目标矩阵
-              const toMatrix = G6.Util.transform(matrix, [
+              // const toMatrix = G6.Util.transform(matrix, [
+              //   ['r', ratio * Math.PI * 2],
+              // ]);
+              const toMatrix = G6.Util.transform(matrix,
+                [['t', -offsetX, 0],
                 ['r', ratio * Math.PI * 2],
-              ]);
+                ['t', +offsetX, 0]]);
               // 返回这一帧需要的参数集，本例中只有目标矩阵
               return {
                 matrix: toMatrix,
               };
             },
           },
-          1000,
+          1200,
           'easeLinear',
         );
       }
