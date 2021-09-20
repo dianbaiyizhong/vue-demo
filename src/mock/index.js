@@ -117,6 +117,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 type: "customNode",
                 modelState: 1,
                 color: "#1890ff",
+          
             },
             {
                 id: 'n2',
@@ -125,12 +126,37 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 type: "customNode",
                 modelState: 2,
                 color: "#1890ff",
+      
+            },
+            {
+                id: 'n3',
+                nodeId: "n3",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff"
+            },
+            {
+                id: 'n4',
+                nodeId: "n4",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff"
             },
         ],
         edges: [
             {
                 source: 'n1',
                 target: 'n2',
+            },
+            {
+                source: 'n1',
+                target: 'n3',
+            },
+            {
+                source: 'n1',
+                target: 'n4',
             },
         ],
 

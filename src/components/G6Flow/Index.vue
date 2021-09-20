@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- <ContextMenu></ContextMenu> -->
     <Toolbar></Toolbar>
     <splitpanes class="default-theme" style="height:100vh;width:100vw;margin-top:50px">
       <pane size="20">
@@ -26,8 +27,9 @@ import Editor from "./G6Editor/base/Editor";
 import command from "./G6Editor/command";
 
 import Flow from "./G6Editor/Flow";
-import Toolbar from "./G6Editor/Toolbar";
+// import ContextMenu from "./G6Editor/ContextMenu";
 
+import Toolbar from "./G6Editor/Toolbar";
 
 export default {
   components: {
@@ -62,6 +64,16 @@ export default {
   created() {
     this.editor = new Editor();
     this.command = new command(this.editor);
+
+    // var MyComponent = Vue.extend(ContextMenu)
+
+
+
+
+
+
+
+
   },
 };
 </script>

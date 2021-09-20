@@ -124,7 +124,9 @@ const customEdge = {
         return keyShape
       },
       afterDraw(cfg, group) {
-        if (cfg.source.getModel().isDoingStart && cfg.target.getModel().isDoingEnd) {
+
+        // 判断并启动连线动画
+        if (cfg.source.getModel().modelState == 1 && cfg.targetNode._cfg.model.modelState == 2) {
           const shape = group.get('children')[0];
           const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
           let totalArray = [];

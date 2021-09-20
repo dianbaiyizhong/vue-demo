@@ -1,5 +1,8 @@
 import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
+import okSvg from "../assets/icons/ok.svg";
+import hiveSvg from "../assets/icons/Hive.svg";
+import loadingSvg from "../assets/icons/loading2.svg";
 
 const customNode = {
   init() {
@@ -38,52 +41,34 @@ const customNode = {
             radius: [4, 0, 0, 4]
           }
         });
-        // group.addShape("image", {
-        //   attrs: {
-        //     x: offsetX + 16,
-        //     y: offsetY + 8,
-        //     width: 20,
-        //     height: 16,
-        //     img: cfg.image,
-        //     parent: mainId
-        //   }
-        // });
-        // group.addShape("image", {
-        //   attrs: {
-        //     x: offsetX + width - 32,
-        //     y: offsetY + 8,
-        //     width: 16,
-        //     height: 16,
-        //     parent: mainId,
-        //     img: cfg.stateImage
-        //   }
-        // });
-        // if (cfg.backImage) {
-        //   const clip = new Shape.Rect({
-        //     attrs: {
-        //       x: offsetX,
-        //       y: offsetY,
-        //       width: width,
-        //       height: height,
-        //       fill: '#fff',
-        //       radius: 4
-        //     }
-        //   });
-        //   group.addShape("image", {
-        //     attrs: {
-        //       x: offsetX,
-        //       y: offsetY,
-        //       width: width,
-        //       height: height,
-        //       img: cfg.backImage,
-        //       clip: clip
-        //     }
-        //   });
-        // }
+        group.addShape("image", {
+          attrs: {
+            x: offsetX + 16,
+            y: offsetY + 8,
+            width: 20,
+            height: 20,
+            img: hiveSvg,
+            parent: mainId
+          }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         group.addShape("text", {
           attrs: {
             id: 'modelName_' + uniqueId(),
-            x: offsetX + 20,
+            x: offsetX + 40,
             y: offsetY + height / 2,
             textAlign: "left",
             textBaseline: "middle",
@@ -220,6 +205,41 @@ const customNode = {
             }
             break;
         }
+      },
+      afterDraw(cfg, group) {
+        const stateImage = group.addShape("image", {
+          attrs: {
+            x: -8,
+            y: -8,
+            width: 16,
+            height: 16,
+            parent: "mainId",
+
+            img: loadingSvg
+          }
+        });
+        stateImage.animate(
+          {
+            // 动画重复
+            repeat: true,
+            // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+            onFrame(ratio) {
+              // 旋转通过矩阵来实现
+              // 当前矩阵
+              const matrix = G6.Util.mat3.create();
+              // 目标矩阵
+              const toMatrix = G6.Util.transform(matrix, [
+                ['r', ratio * Math.PI * 2],
+              ]);
+              // 返回这一帧需要的参数集，本例中只有目标矩阵
+              return {
+                matrix: toMatrix,
+              };
+            },
+          },
+          1000,
+          'easeLinear',
+        );
       }
     });
   }

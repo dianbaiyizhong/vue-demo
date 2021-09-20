@@ -24,6 +24,9 @@
 
     <i data-command="unGroup" class="command iconfont icon-ungroup disable" title="解组"></i>
     <el-button @click="consoleData" type="primary">控制台输出数据</el-button>
+
+    <el-button @click="comeOn" type="primary">动起来</el-button>
+
   </div>
 </template>
 
@@ -251,6 +254,12 @@ export default {
     consoleData() {
       console.log(this.graph.save());
     },
+
+    comeOn(){
+
+
+
+    }
   },
 };
 </script>
