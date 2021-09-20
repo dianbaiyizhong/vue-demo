@@ -83,4 +83,58 @@ Mock.mock('/mock/getOrder', 'get', {
 })
 
 
+
+
+Mock.mock('/mock/getModel', 'get', {
+    'msg': '操作成功',
+    'code': 0,
+    'data': [
+        {
+            name: "Hive模型",
+            id: 0,
+            isParent: false,
+            // iconSkin: "pIcon01"
+        },
+        {
+            name: "Spark模型",
+            id: 100,
+            isParent: false,
+            // iconSkin: "pIcon01"
+        },
+    ]
+})
+
+
+Mock.mock('/mock/getFlowJson', 'get', {
+    'msg': '操作成功',
+    'code': 0,
+    'data': {
+        nodes: [
+            {
+                id: 'n1',
+                nodeId: "n1",
+                modelName: "Hive模型",
+                type: "customNode",
+                modelState: 1,
+                color: "#1890ff",
+            },
+            {
+                id: 'n2',
+                nodeId: "n2",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff",
+            },
+        ],
+        edges: [
+            {
+                source: 'n1',
+                target: 'n2',
+            },
+        ],
+
+
+    }
+})
 export default Mock;

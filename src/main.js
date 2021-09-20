@@ -3,7 +3,8 @@ import Vue from 'vue'
 // import App from './components/ztree/ZTree.vue'
 // import App from './components/rxjs/RxJsDemo'
 // import App from './components/g6'
-import App from './components/Nprogress'
+// import App from './components/Nprogress'
+import App from './components/G6Flow/Index'
 
 require('./mock');
 

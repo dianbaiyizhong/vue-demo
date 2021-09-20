@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "3d-force-graph": "^1.70.2",
-    "@antv/g6": "^3.8.5",
+    "@antv/g6": "3.8.5",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -39,7 +39,10 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "mockjs": "^1.1.0",
-    "vue-template-compiler": "^2.6.11"
+    "node-sass": "^4.14.1",
+    "vue-template-compiler": "^2.6.11",
+    "splitpanes": "^2.3.8",
+    "sass-loader": "^8.0.2"
   },
   "eslintConfig": {
     "root": true,
