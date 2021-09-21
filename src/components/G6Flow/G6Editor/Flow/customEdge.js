@@ -126,9 +126,13 @@ const customEdge = {
       afterDraw(cfg, group) {
 
         console.info(cfg)
+        if (cfg != null) {
+          return
+        }
 
         // 判断并启动连线动画
         if (cfg.source.getModel().modelState == 1 && cfg.targetNode._cfg.model.modelState == 2) {
+
           const shape = group.get('children')[0];
           const length = shape.getTotalLength(); // G 增加了 totalLength 的接口
           let totalArray = [];

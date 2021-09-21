@@ -158,6 +158,45 @@ export default {
         // });
       }, 3000);
 
+      setTimeout(function () {
+        // 测试局部布局
+
+        axios.get("/mock/getAnotherFlowJson").then(function (resp) {
+          let g6Data = resp.data.data;
+
+          g6Data.nodes.map((node) => {
+            that.graph.addItem("node", node);
+          });
+
+          g6Data.edges.map((edge) => {
+            that.graph.addItem("edge", edge);
+          });
+
+          const subForceLayout = new G6.Layout.force({
+            center: [500, 500],
+            linkDistance: 200,
+            preventOverlap: true,
+            tick: function tick() {
+              that.graph.refreshPositions();
+            },
+          });
+          subForceLayout.init({
+            nodes: g6Data.nodes,
+            edges: g6Data.edges,
+          });
+
+          subForceLayout.execute();
+
+          that.graph.createCombo(
+            {
+              id: "p2",
+              label: "模型依赖分组",
+            },
+            ["n5", "n6", "n7", "n8"]
+          );
+        });
+      }, 3000);
+
       const { editor, command } = this.$parent.$parent.$parent;
 
       editor.emit("afterAddPage", { graph: this.graph, command });

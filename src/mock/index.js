@@ -173,4 +173,73 @@ Mock.mock('/mock/getFlowJson', 'get', {
 
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+Mock.mock('/mock/getAnotherFlowJson', 'get', {
+    'msg': '操作成功',
+    'code': 0,
+    'data': {
+        nodes: [
+            {
+                id: 'n5',
+                nodeId: "n5",
+                modelName: "Hive模型-KIA入库-智能chinese IT协会数据",
+                type: "customNode",
+                modelState: 1,
+                color: "#1890ff",
+
+
+            },
+            {
+                id: 'n6',
+                nodeId: "n6",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff",
+            },
+            {
+                id: 'n7',
+                nodeId: "n7",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff"
+            },
+            {
+                id: 'n8',
+                nodeId: "n8",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff"
+            },
+        ],
+        edges: [
+            {
+                source: 'n5',
+                target: 'n6',
+            },
+            {
+                source: 'n5',
+                target: 'n7',
+            },
+            {
+                source: 'n5',
+                target: 'n8',
+            },
+        ]
+
+
+    }
+})
 export default Mock;
