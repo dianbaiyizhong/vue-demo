@@ -127,7 +127,7 @@ const customEdge = {
 
         console.info(cfg)
         if (cfg != null) {
-          return
+          // return
         }
 
         // 判断并启动连线动画

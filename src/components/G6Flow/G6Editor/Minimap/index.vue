@@ -12,7 +12,9 @@
 </template>
 
 <script>
-import Minimap from "@antv/g6/lib/plugins/minimap";
+// import Minimap from "@antv/g6/lib/plugins/minimap";
+import G6, { Minimap, Grid } from '@antv/g6'
+
 import eventBus from "../utils/eventBus";
 export default {
   data() {
