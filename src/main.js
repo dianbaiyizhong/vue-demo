@@ -4,7 +4,8 @@ import Vue from 'vue'
 // import App from './components/rxjs/RxJsDemo'
 // import App from './components/g6'
 // import App from './components/Nprogress'
-import App from './components/G6Flow/Index'
+// import App from './components/G6Flow/Index'
+import App from './components/Datablood/Index2'
 
 require('./mock');
 
