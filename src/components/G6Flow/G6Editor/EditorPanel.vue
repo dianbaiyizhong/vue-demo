@@ -137,8 +137,9 @@ export default {
           // moveNode: ["drag-item"],
         },
         // groupType: "rect",
-        groupByTypes: false,
+        groupByTypes: true,
       });
+      this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
         console.info("___________________");
