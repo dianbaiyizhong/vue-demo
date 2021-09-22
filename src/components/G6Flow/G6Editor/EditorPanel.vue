@@ -136,9 +136,22 @@ export default {
 
           // moveNode: ["drag-item"],
         },
-        // groupType: "rect",
         groupByTypes: true,
+        defaultCombo: {
+          type: "cRect",
+        },
       });
+
+      // collapse/expand when click the marker
+      this.graph.on("combo:click", (e) => {
+        if (e.target.get("name") === "combo-marker-shape") {
+          that.graph.collapseExpandCombo(e.item);
+          if (that.graph.get("layout")) that.graph.layout();
+          else that.graph.refreshPositions();
+        }
+      });
+
+      // 解决残影问题
       this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
@@ -173,13 +186,13 @@ export default {
             that.graph.addItem("edge", edge);
           });
 
-          const subForceLayout = new G6.Layout.force({
-            center: [500, 500],
+          const subForceLayout = new G6.Layout.dagre({
+            // center: [500, 1000],
             linkDistance: 200,
-            preventOverlap: true,
-            tick: function tick() {
-              that.graph.refreshPositions();
-            },
+            // preventOverlap: true,
+            // tick: function tick() {
+            //   that.graph.refreshPositions();
+            // },
           });
           subForceLayout.init({
             nodes: g6Data.nodes,
@@ -187,6 +200,7 @@ export default {
           });
 
           subForceLayout.execute();
+          that.graph.refreshPositions();
 
           that.graph.createCombo(
             {

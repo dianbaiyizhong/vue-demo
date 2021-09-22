@@ -5,12 +5,15 @@
 <script>
 import customNode from "./customNode";
 import customEdge from "./customEdge";
-import teamNode from './teamNode'
+import teamNode from "./teamNode";
+
+import customCombo from "./customCombo";
+
 export default {
-  name:'Flow',
+  name: "Flow",
   data() {
     return {
-      page: null
+      page: null,
     };
   },
   created() {
@@ -21,8 +24,9 @@ export default {
       customNode.init();
       customEdge.init();
       teamNode.init();
-    }
-  }
+      customCombo.init();
+    },
+  },
 };
 </script>
 
