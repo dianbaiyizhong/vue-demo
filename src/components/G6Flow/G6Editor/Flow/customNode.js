@@ -283,12 +283,12 @@ const customNode = {
             onFrame(ratio) {
               // 旋转通过矩阵来实现
               // 当前矩阵
-              const matrix = G6.Util.mat3.create();
+          
               // 目标矩阵
               // const toMatrix = G6.Util.transform(matrix, [
               //   ['r', ratio * Math.PI * 2],
               // ]);
-              const toMatrix = G6.Util.transform(matrix,
+              const toMatrix = G6.Util.transform([1, 0, 0, 0, 1, 0, 0, 0, 1],
                 [['t', -offsetX, 0],
                 ['r', ratio * Math.PI * 2],
                 ['t', +offsetX, 0]]);

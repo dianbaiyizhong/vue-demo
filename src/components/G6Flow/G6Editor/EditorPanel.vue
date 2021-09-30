@@ -1,5 +1,5 @@
 <template>
-  <div :id="pageId" class="graph-container" style="position: relative;"></div>
+  <div :id="pageId" class="graph-container" style="position: relative"></div>
 </template>
 
 <script>
@@ -126,47 +126,21 @@ export default {
         modes: {
           // 支持的 behavior
           default: [
-            {
-              type: "create-edge",
-              trigger: "drag", // set the trigger to be drag to make the create-edge triggered by drag
-              shouldBegin: (e) => {
-                console.info(e)
-                // avoid beginning at other shapes on the node
-                if (e.target && e.target.get("name") !== "anchor-point")
-                  return false;
-                sourceAnchorIdx = e.target.get("anchorPointIdx");
-                e.target.set("links", e.target.get("links") + 1); // cache the number of edge connected to this anchor-point circle
-                return true;
-              },
-              shouldEnd: (e) => {
-                // avoid ending at other shapes on the node
-                if (e.target && e.target.get("name") !== "anchor-point")
-                  return false;
-                if (e.target) {
-                  targetAnchorIdx = e.target.get("anchorPointIdx");
-                  e.target.set("links", e.target.get("links") + 1); // cache the number of edge connected to this anchor-point circle
-                  return true;
-                }
-                targetAnchorIdx = undefined;
-                return true;
-              },
-            },
-
-            // "drag-canvas",
-            // "zoom-canvas",
-            // "hover-node",
-            // "select-node",
-            // // "hover-edge",
-            // "keyboard",
-            // "customer-events",
-            // "add-menu",
-            // "drag-node",
-            // "drag-combo",
-            // "collapse-expand-combo",
-            // "drag-node-with-combo",
+            "drag-canvas",
+            "zoom-canvas",
+            "hover-node",
+            "select-node",
+            "hover-edge",
+            "keyboard",
+            "customer-events",
+            "add-menu",
+            "drag-node",
+            "drag-combo",
+            "collapse-expand-combo",
+            "drag-node-with-combo",
           ],
           mulitSelect: ["mulit-select"],
-          // addEdge: ["add-edge"],
+          addEdge: ["add-edge"],
           // moveNode: ["drag-item"],
         },
         groupByTypes: true,
@@ -197,53 +171,45 @@ export default {
         };
       });
 
-      setTimeout(function () {
-        // that.graph.updateLayout({
-        //   type: "dagre",
-        //   width: width,
-        //   height: height,
-        // });
-      }, 3000);
+      // setTimeout(function () {
+      //   // 测试局部布局
 
-      setTimeout(function () {
-        // 测试局部布局
+      //   axios.get("/mock/getAnotherFlowJson").then(function (resp) {
+      //     let g6Data = resp.data.data;
 
-        axios.get("/mock/getAnotherFlowJson").then(function (resp) {
-          let g6Data = resp.data.data;
+      //     g6Data.nodes.map((node) => {
+      //       that.graph.addItem("node", node);
+      //     });
 
-          g6Data.nodes.map((node) => {
-            that.graph.addItem("node", node);
-          });
+      //     g6Data.edges.map((edge) => {
+      //       that.graph.addItem("edge", edge);
+      //     });
 
-          g6Data.edges.map((edge) => {
-            that.graph.addItem("edge", edge);
-          });
+      //     const subForceLayout = new G6.Layout.dagre({
+      //       // center: [500, 1000],
+      //       linkDistance: 200,
+      //       // preventOverlap: true,
+      //       // tick: function tick() {
+      //       //   that.graph.refreshPositions();
+      //       // },
+      //     });
+      //     subForceLayout.init({
+      //       nodes: g6Data.nodes,
+      //       edges: g6Data.edges,
+      //     });
 
-          const subForceLayout = new G6.Layout.dagre({
-            // center: [500, 1000],
-            linkDistance: 200,
-            // preventOverlap: true,
-            // tick: function tick() {
-            //   that.graph.refreshPositions();
-            // },
-          });
-          subForceLayout.init({
-            nodes: g6Data.nodes,
-            edges: g6Data.edges,
-          });
+      //     subForceLayout.execute();
+      //     that.graph.refreshPositions();
 
-          subForceLayout.execute();
-          that.graph.refreshPositions();
-
-          that.graph.createCombo(
-            {
-              id: "p2",
-              label: "模型依赖分组",
-            },
-            ["n5", "n6", "n7", "n8"]
-          );
-        });
-      }, 3000);
+      //     that.graph.createCombo(
+      //       {
+      //         id: "p2",
+      //         label: "模型依赖分组",
+      //       },
+      //       ["n5", "n6", "n7", "n8"]
+      //     );
+      //   });
+      // }, 3000);
 
       const { editor, command } = this.$parent.$parent.$parent;
 
