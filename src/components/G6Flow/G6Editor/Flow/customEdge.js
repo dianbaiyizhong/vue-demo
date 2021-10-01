@@ -93,10 +93,9 @@ const customEdge = {
             id: 'edge' + uniqueId(),
             path: path,
             stroke: '#808080',
-            // lineAppendWidth: 10,
             lineWidth: 1,
             endArrow: {
-              path: G6.Arrow.triangle(8, 8, 0),
+              path: G6.Arrow.triangle(6, 4, 0),
               lineDash: [0, 0],
               fill: '#808080',
               d: 0
@@ -107,7 +106,6 @@ const customEdge = {
       },
       afterDraw(cfg, group) {
 
-        // console.info(cfg)
 
 
         if (cfg.targetNode == null) {
@@ -116,15 +114,12 @@ const customEdge = {
         }
 
 
-
+        const shape = group.get('children')[0];
         // 判断并启动连线动画
-        if (cfg.source.getModel().modelState == 1 && cfg.targetNode._cfg.model.modelState == 3) {
-
-          const shape = group.get('children')[0];
-
+        if (cfg.source.getModel().modelState == 2 && cfg.targetNode._cfg.model.modelState == 1) {
           // 设置动画流水线图为绿色
           shape.attr("stroke", "#5FD38F");
-
+          shape.attr("lineWidth", "2");
           let index = 0;
           // 边 path 图形的动画
           shape.animate(
@@ -137,14 +132,15 @@ const customEdge = {
                 lineDash,
                 lineDashOffset: -index,
               };
-              // 返回需要修改的参数集，这里修改了 lineDash,lineDashOffset
               return res;
             },
             {
-              repeat: true, // 动画重复
-              duration: 2000, // 一次动画的时长为 3000
+              repeat: true,
+              duration: 2000,
             },
           );
+        } else {
+          shape.attr("lineWidth", "1");
         }
       },
       setState(name, value, item) {
@@ -171,21 +167,10 @@ const customEdge = {
     });
 
 
-    const dashArray = [
-      [0, 1],
-      [0, 2],
-      [1, 2],
-      [0, 1, 1, 2],
-      [0, 2, 1, 2],
-      [1, 2, 1, 2],
-      [2, 2, 1, 2],
-      [3, 2, 1, 2],
-      [4, 2, 1, 2]
-    ];
+
     const lineDash = [10, 2];
 
     // const lineDash = [4, 2, 1, 2];
-    const interval = 5;
     G6.registerEdge('link-edge', {
       draw(cfg, group) {
         let sourceNode, targetNode, start, end

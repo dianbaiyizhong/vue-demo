@@ -2,7 +2,7 @@ import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
 import okSvg from "../assets/icons/ok.svg";
 import hiveSvg from "../assets/icons/hive.svg";
-import loadingSvg from "../assets/icons/loading3.svg";
+import loadingSvg from "../assets/icons/loading.svg";
 import sparkSvg from "../assets/icons/apachespark.svg";
 import hadoopSvg from "../assets/icons/hadoop.svg";
 
@@ -87,6 +87,7 @@ const customNode = {
         } else if (nodeType == 3) {
           iconType = hadoopSvg
         }
+
 
 
         const mainId = cfg.nodeId
@@ -230,8 +231,6 @@ const customNode = {
           });
         }
 
-        //group.sort()
-        // 添加文本、更多图形
         return shape;
       },
       //设置状态
@@ -255,8 +254,8 @@ const customNode = {
           shape.attr("cursor", "move");
           // 设置阴影
           shape.attr("shadowColor", "rgba(64, 169, 255, 0.2)");
-          shape.attr("shadowOffsetX", "-3");
-          shape.attr("shadowOffsetY", "3");
+          shape.attr("shadowOffsetX", -3);
+          shape.attr("shadowOffsetY", 3);
           shape.attr("opacity", "0.5");
 
           shape.attr("stroke", "#1890ff");
@@ -278,8 +277,8 @@ const customNode = {
           shape.attr("fill", "#fff");
           shape.attr("stroke", "rgba(0, 0, 0, 0)");
           shape.attr("shadowColor", "rgba(0, 0, 0, 0.08)");
-          shape.attr("shadowOffsetX", "-4");
-          shape.attr("shadowOffsetY", "4");
+          shape.attr("shadowOffsetX", -4);
+          shape.attr("shadowOffsetY", 4);
           shape.attr("opacity", "1");
 
 
@@ -303,11 +302,14 @@ const customNode = {
         }
       },
       afterDraw(cfg, group) {
-
-
-
         const offsetX = 70
-
+        const modelState = cfg.modelState
+        let statusIcon = okSvg
+        if (modelState == 1) {
+          statusIcon = loadingSvg
+        } else if (modelState == 2) {
+          statusIcon = okSvg
+        }
         // 为状态图标添加一个父节点
         const stateImage = group.addShape("image", {
           attrs: {
@@ -315,37 +317,41 @@ const customNode = {
             y: -9,
             width: 18,
             height: 18,
-            img: loadingSvg
+            img: statusIcon
           }
         });
 
 
-        stateImage.animate(
-          {
-            // 动画重复
-            repeat: true,
-            // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
-            onFrame(ratio) {
-              // 旋转通过矩阵来实现
-              // 当前矩阵
+        if (modelState == 1) {
+          stateImage.animate(
+            {
+              // 动画重复
+              repeat: true,
+              // 每一帧的操作，入参 ratio：这一帧的比例值（Number）。返回值：这一帧需要变化的参数集（Object）。
+              onFrame(ratio) {
+                // 旋转通过矩阵来实现
+                // 当前矩阵
 
-              // 目标矩阵
-              // const toMatrix = G6.Util.transform(matrix, [
-              //   ['r', ratio * Math.PI * 2],
-              // ]);
-              const toMatrix = G6.Util.transform([1, 0, 0, 0, 1, 0, 0, 0, 1],
-                [['t', -offsetX, 0],
-                ['r', ratio * Math.PI * 2],
-                ['t', +offsetX, 0]]);
-              // 返回这一帧需要的参数集，本例中只有目标矩阵
-              return {
-                matrix: toMatrix,
-              };
+                // 目标矩阵
+                // const toMatrix = G6.Util.transform(matrix, [
+                //   ['r', ratio * Math.PI * 2],
+                // ]);
+                const toMatrix = G6.Util.transform([1, 0, 0, 0, 1, 0, 0, 0, 1],
+                  [['t', -offsetX, 0],
+                  ['r', ratio * Math.PI * 2],
+                  ['t', +offsetX, 0]]);
+                // 返回这一帧需要的参数集，本例中只有目标矩阵
+                return {
+                  matrix: toMatrix,
+                };
+              },
             },
-          },
-          1200,
-          'easeLinear',
-        );
+            1200,
+            'easeLinear',
+          );
+        }
+
+
       }
     });
   }

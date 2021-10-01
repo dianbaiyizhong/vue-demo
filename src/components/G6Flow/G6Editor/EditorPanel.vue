@@ -115,13 +115,21 @@ export default {
         container: "graph-container",
         height: height,
         width: width,
-        plugins: [contextMenu, grid], // 配置 Tooltip 插件
+        plugins: [contextMenu], // 配置 Tooltip 插件
         defaultEdge: {
           type: "quadratic",
           style: {
             stroke: "#F6BD16",
             lineWidth: 2,
           },
+        },
+        layout: {
+          type: "dagre",
+          rankdir: "LR", // 可选，默认为图的中心
+          align: "DL", // 可选
+          nodesep: 40, // 可选
+          ranksep: 100, // 可选
+          controlPoints: true, // 可选
         },
         modes: {
           // 支持的 behavior
@@ -236,10 +244,15 @@ export default {
 
 
 <style>
-canvas {
+/* canvas {
   position: relative;
 }
 .g6-grid-container {
   z-index: 0 !important;
 }
+.minimap {
+  position: absolute;
+
+  z-index: 10;
+} */
 </style>
