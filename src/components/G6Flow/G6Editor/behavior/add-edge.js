@@ -98,6 +98,7 @@ export default {
         const item = e.item
 
         if (!startPoint) {
+
             this.graph.find("node", node => {
                 const group = node.get('group')
                 const children = group.cfg.children
@@ -135,13 +136,15 @@ export default {
         }
     },
     onMouseover(e) {
+
         const item = e.item
         if (item && item.getType() === 'node') {
+
             if (e.target.attrs.isInPointOut && !this.hasTran) {
                 this.hasTran = true
                 let matrix = e.target.getMatrix();
                 if (matrix == null) {
-                    matrix = G6.Util.mat3.create();
+                    matrix = [1, 0, 0, 0, 1, 0, 0, 0, 1]
                 }
                 matrix = G6.Util.transform(matrix, [
                     ['t', 0, 3],
@@ -149,7 +152,6 @@ export default {
                 ]);
                 e.target.setMatrix(matrix);
             }
-            // this.graph.paint()
         }
     },
     onMouseleave() {

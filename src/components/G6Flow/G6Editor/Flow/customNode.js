@@ -262,7 +262,6 @@ const customNode = {
 
         const offsetX = 70
 
-
         // 为状态图标添加一个父节点
         const stateImage = group.addShape("image", {
           attrs: {

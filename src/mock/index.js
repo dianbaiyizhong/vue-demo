@@ -152,10 +152,10 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 source: 'n1',
                 target: 'n2',
             },
-            {
-                source: 'n1',
-                target: 'n3',
-            },
+            // {
+            //     source: 'n1',
+            //     target: 'n3',
+            // },
             {
                 source: 'n1',
                 target: 'n4',

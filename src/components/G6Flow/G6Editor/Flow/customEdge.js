@@ -125,10 +125,18 @@ const customEdge = {
       },
       afterDraw(cfg, group) {
 
-        console.info(cfg)
+        // console.info(cfg)
         if (cfg != null) {
           // return
         }
+
+
+        if (cfg.targetNode == null) {
+          // 拖拽连线但是未找到终点的时候，需要有这个判断
+          return
+        }
+
+
 
         // 判断并启动连线动画
         if (cfg.source.getModel().modelState == 1 && cfg.targetNode._cfg.model.modelState == 2) {
