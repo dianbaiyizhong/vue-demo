@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import customNode from "./customNode2";
+import customNode from "./customNode";
 import customEdge from "./customEdge";
 import teamNode from "./teamNode";
 

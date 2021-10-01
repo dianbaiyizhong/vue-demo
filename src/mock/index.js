@@ -114,37 +114,62 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 id: 'n1',
                 nodeId: "n1",
                 modelName: "Hive模型-KIA入库-智能chinese IT协会数据",
-                type: "customNode2",
+                type: "customNode",
                 modelState: 1,
                 color: "#1890ff",
-                comboId: 'p1'
-
-
+                comboId: 'p1',
+                nodeType: 1
             },
             {
                 id: 'n2',
                 nodeId: "n2",
-                modelName: "Spark模型",
-                type: "customNode2",
+                modelName: "Hive模型",
+                type: "customNode",
                 modelState: 2,
                 color: "#1890ff",
                 comboId: 'p1',
+                nodeType: 1
+
             },
             {
                 id: 'n3',
                 nodeId: "n3",
-                modelName: "Spark模型",
-                type: "customNode2",
+                modelName: "Hive模型",
+                type: "customNode",
                 modelState: 2,
-                color: "#1890ff"
+                color: "#1890ff",
+                nodeType: 1
+
             },
             {
                 id: 'n4',
                 nodeId: "n4",
-                modelName: "Spark模型",
-                type: "customNode2",
+                modelName: "Hive模型",
+                type: "customNode",
                 modelState: 2,
-                color: "#1890ff"
+                color: "#1890ff",
+                nodeType: 1
+
+            },
+            {
+                id: 'n5',
+                nodeId: "n5",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff",
+                nodeType: 2
+
+            },
+            {
+                id: 'n6',
+                nodeId: "n6",
+                modelName: "Spark模型",
+                type: "customNode",
+                modelState: 2,
+                color: "#1890ff",
+                nodeType: 3
+
             },
         ],
         edges: [

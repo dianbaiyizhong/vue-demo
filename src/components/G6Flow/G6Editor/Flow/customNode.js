@@ -1,8 +1,11 @@
 import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
 import okSvg from "../assets/icons/ok.svg";
-import hiveSvg from "../assets/icons/Hive.svg";
+import hiveSvg from "../assets/icons/hive.svg";
 import loadingSvg from "../assets/icons/loading3.svg";
+import sparkSvg from "../assets/icons/apachespark.svg";
+import hadoopSvg from "../assets/icons/hadoop.svg";
+
 /**
  * format the string
  * @param {string} str The origin string
@@ -32,8 +35,12 @@ const fittingString2 = (str, maxWidth, fontSize) => {
   return res;
 };
 
-
-
+// 设置组件的长度和宽度
+let size = [180, 34]
+const width = parseInt(size[0]);
+const height = parseInt(size[1]);
+const offsetX = -width / 2
+const offsetY = -height / 2
 /**
  * format the string
  * @param {string} str The origin string
@@ -65,15 +72,23 @@ const customNode = {
   init() {
     G6.registerNode("customNode", {
       draw(cfg, group) {
-        let size = [170, 34]
 
-        // 此处必须是NUMBER 不然bbox不正常
-        const width = parseInt(size[0]);
-        const height = parseInt(size[1]);
         const color = cfg.color;
-        // 此处必须有偏移 不然drag-node错位
-        const offsetX = -width / 2
-        const offsetY = -height / 2
+        const nodeType = cfg.nodeType
+
+
+        let iconType = hiveSvg
+
+
+        if (nodeType == 1) {
+          iconType = hiveSvg
+        } else if (nodeType == 2) {
+          iconType = sparkSvg
+        } else if (nodeType == 3) {
+          iconType = hadoopSvg
+        }
+
+
         const mainId = cfg.nodeId
         const shape = group.addShape("rect", {
           attrs: {
@@ -82,31 +97,36 @@ const customNode = {
             y: offsetY,
             width: width,
             height: height,
-            stroke: "#ced4d9",
-            fill: '#fff',//此处必须有fill 不然不能触发事件
+            fill: '#fff',
+            shadowColor: 'rgba(0, 0, 0, 0.08)',
+            shadowOffsetX: -4,
+            shadowOffsetY: 4,
+            shadowBlur: 20,
+            // opacity: 0.5,
             radius: 4
           }
         });
-
 
         group.addShape("rect", {
           attrs: {
             x: offsetX,
             y: offsetY,
-            width: 4,
+            width: 32,
             height: height,
-            fill: color,
+            // fill: "#1890FF",
+            fill: "#E9F1FF",
             parent: mainId,
             radius: [4, 0, 0, 4]
           }
         });
+
         group.addShape("image", {
           attrs: {
-            x: offsetX + 6,
-            y: offsetY + 4,
-            width: 28,
-            height: 28,
-            img: hiveSvg,
+            x: offsetX + 5,
+            y: offsetY + 7,
+            width: 20,
+            height: 20,
+            img: iconType,
             opacity: 1
 
           },
@@ -219,6 +239,9 @@ const customNode = {
         const group = item.getContainer();
         const shape = group.get("children")[0]; // 顺序根据 draw 时确定
 
+        const littleRect = group.get("children")[1]; // 顺序根据 draw 时确定
+
+
         const children = group.findAll(g => {
           return g.attrs.parent === shape.attrs.id
         });
@@ -228,9 +251,21 @@ const customNode = {
           return circle.attrs.isInPoint || circle.attrs.isOutPoint;
         });
         const selectStyles = () => {
-          shape.attr("fill", "#f3f9ff");
-          shape.attr("stroke", "#6ab7ff");
+          shape.attr("fill", "rgba(243, 249, 255, 0.92)");
           shape.attr("cursor", "move");
+          // 设置阴影
+          shape.attr("shadowColor", "rgba(64, 169, 255, 0.2)");
+          shape.attr("shadowOffsetX", "-3");
+          shape.attr("shadowOffsetY", "3");
+          shape.attr("opacity", "0.5");
+
+          shape.attr("stroke", "#1890ff");
+          littleRect.attr("height", height - 2)
+          littleRect.attr("x", offsetX + 1)
+          littleRect.attr("y", offsetY + 1)
+
+
+
           children.forEach(child => {
             child.attr("cursor", "move");
           });
@@ -239,8 +274,19 @@ const customNode = {
           })
         };
         const unSelectStyles = () => {
+
           shape.attr("fill", "#fff");
-          shape.attr("stroke", "#ced4d9");
+          shape.attr("stroke", "rgba(0, 0, 0, 0)");
+          shape.attr("shadowColor", "rgba(0, 0, 0, 0.08)");
+          shape.attr("shadowOffsetX", "-4");
+          shape.attr("shadowOffsetY", "4");
+          shape.attr("opacity", "1");
+
+
+          littleRect.attr("height", height)
+          littleRect.attr("x", offsetX)
+          littleRect.attr("y", offsetY)
+
           circles.forEach(circle => {
             circle.attr('opacity', 0)
           })
@@ -282,7 +328,7 @@ const customNode = {
             onFrame(ratio) {
               // 旋转通过矩阵来实现
               // 当前矩阵
-          
+
               // 目标矩阵
               // const toMatrix = G6.Util.transform(matrix, [
               //   ['r', ratio * Math.PI * 2],

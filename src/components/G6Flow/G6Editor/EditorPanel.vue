@@ -44,6 +44,7 @@ export default {
     init() {
       const height = this.height - 42;
       const width = this.width - 400;
+      const grid = new G6.Grid();
 
       const tooltip = new G6.Tooltip({
         offsetX: 0,
@@ -109,13 +110,12 @@ export default {
         offsetY: -120,
         itemTypes: ["node", "edge"],
       });
-      let sourceAnchorIdx, targetAnchorIdx;
 
       this.graph = new G6.Graph({
         container: "graph-container",
         height: height,
         width: width,
-        plugins: [contextMenu], // 配置 Tooltip 插件
+        plugins: [contextMenu, grid], // 配置 Tooltip 插件
         defaultEdge: {
           type: "quadratic",
           style: {
@@ -146,6 +146,10 @@ export default {
         groupByTypes: true,
         defaultCombo: {
           type: "cRect",
+          style: {
+            fill: "#fff",
+            opacity: 0.5,
+          },
         },
       });
 
@@ -230,5 +234,12 @@ export default {
 };
 </script>
 
+
 <style>
+canvas {
+  position: relative;
+}
+.g6-grid-container {
+  z-index: 0 !important;
+}
 </style>
