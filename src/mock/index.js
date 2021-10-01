@@ -114,7 +114,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 id: 'n1',
                 nodeId: "n1",
                 modelName: "Hive模型-KIA入库-智能chinese IT协会数据",
-                type: "customNode",
+                type: "customNode2",
                 modelState: 1,
                 color: "#1890ff",
                 comboId: 'p1'
@@ -125,7 +125,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 id: 'n2',
                 nodeId: "n2",
                 modelName: "Spark模型",
-                type: "customNode",
+                type: "customNode2",
                 modelState: 2,
                 color: "#1890ff",
                 comboId: 'p1',
@@ -134,7 +134,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 id: 'n3',
                 nodeId: "n3",
                 modelName: "Spark模型",
-                type: "customNode",
+                type: "customNode2",
                 modelState: 2,
                 color: "#1890ff"
             },
@@ -142,7 +142,7 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 id: 'n4',
                 nodeId: "n4",
                 modelName: "Spark模型",
-                type: "customNode",
+                type: "customNode2",
                 modelState: 2,
                 color: "#1890ff"
             },
@@ -152,10 +152,10 @@ Mock.mock('/mock/getFlowJson', 'get', {
                 source: 'n1',
                 target: 'n2',
             },
-            // {
-            //     source: 'n1',
-            //     target: 'n3',
-            // },
+            {
+                source: 'n1',
+                target: 'n3',
+            },
             {
                 source: 'n1',
                 target: 'n4',
