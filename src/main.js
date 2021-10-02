@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import 'reset-css';
+
 // import App from './SqlPanel/Index.vue'
 // import App from './components/ztree/ZTree.vue'
 // import App from './components/rxjs/RxJsDemo'

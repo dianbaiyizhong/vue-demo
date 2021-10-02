@@ -115,7 +115,7 @@ export default {
         container: "graph-container",
         height: height,
         width: width,
-        plugins: [contextMenu], // 配置 Tooltip 插件
+        plugins: [contextMenu, grid], // 配置 Tooltip 插件
         defaultEdge: {
           type: "quadratic",
           style: {
@@ -244,7 +244,10 @@ export default {
 
 
 <style>
-/* canvas {
+.graph-container {
+  background-color: #f7f7fa;
+}
+canvas {
   position: relative;
 }
 .g6-grid-container {
@@ -252,7 +255,6 @@ export default {
 }
 .minimap {
   position: absolute;
-
   z-index: 10;
-} */
+}
 </style>

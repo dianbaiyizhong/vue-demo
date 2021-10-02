@@ -2,7 +2,7 @@
   <div class="container">
     <!-- <ContextMenu></ContextMenu> -->
     <Toolbar></Toolbar>
-    <splitpanes class="default-theme" style="height:100vh;width:100vw;margin-top:50px">
+    <splitpanes class="default-theme" style="height:100vh;width:100vw">
       <pane size="20">
         <NodeMenu></NodeMenu>
       </pane>
