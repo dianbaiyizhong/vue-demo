@@ -197,7 +197,7 @@ export default {
       }
     },
     getFormatPadding() {
-      return Util.formatPadding(this.graph.get("fitViewPadding"));
+      // return Util.formatPadding(this.graph.get("fitViewPadding"));
     },
     getViewCenter() {
       const padding = this.getFormatPadding();

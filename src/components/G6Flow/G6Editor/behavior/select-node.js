@@ -1,5 +1,4 @@
 
-import Util from '@antv/util'
 import eventBus from "../utils/eventBus";
 export default {
     getDefaultCfg() {

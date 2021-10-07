@@ -6,12 +6,12 @@
       <pane size="20">
         <NodeMenu></NodeMenu>
       </pane>
-      <pane>
+      <pane class="editPanel">
         <EditorPanel :height="height" :width="width" :data="data"></EditorPanel>
       </pane>
       <pane size="20">
         <Flow />
-        <DetailPanel></DetailPanel>
+        <DetailPanel ref="detailPanel"></DetailPanel>
       </pane>
     </splitpanes>
   </div>

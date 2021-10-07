@@ -174,7 +174,6 @@ export default {
       this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
-        
         console.info("___________________drop");
       });
 
@@ -235,6 +234,9 @@ export default {
       // 根据网络请求得到数据
       axios.get("/mock/getFlowJson").then(function (resp) {
         that.graph.read(resp.data.data);
+
+        // 这是一个子组件，给另外的子组件赋值呢
+        that.$parent.$parent.$parent.$refs.detailPanel.setData();
       });
     },
 

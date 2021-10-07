@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <Minimap></Minimap>
+  <div class="container">
+    <main class="container__main">
+      <el-input v-model="data01"></el-input>
+    </main>
+    <footer class="container__footer">
+      <Minimap></Minimap>
+    </footer>
   </div>
 </template>
 
@@ -11,6 +16,16 @@ import Minimap from "./Minimap";
 export default {
   components: {
     Minimap,
+  },
+  data() {
+    return {
+      data01: "sssss",
+    };
+  },
+  methods: {
+    setData() {
+      this.data01 = "sssssssssss___"
+    },
   },
   created() {
     eventBus.$on("afterAddPage", (page) => {
@@ -32,5 +47,20 @@ export default {
 };
 </script>
 
-<style>
+<style  scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+}
+
+.container__header,
+.container__footer {
+  flex-shrink: 0;
+}
+
+.container__main {
+  flex-grow: 1;
+}
 </style>
+

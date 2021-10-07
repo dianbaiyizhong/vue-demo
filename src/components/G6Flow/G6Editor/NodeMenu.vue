@@ -1,9 +1,7 @@
 <template>
   <div>
     <ul id="tree" class="ztree"></ul>
-
   </div>
-  
 </template>
 
 <script>
@@ -49,6 +47,10 @@ export default {
     dropTree2Dom(e, treeId, treeNodes) {
       console.info(e.offsetX + "__" + e.offsetY);
       console.info(treeNodes);
+      console.info(e.target.tagName);
+      if (e.target.tagName != "CANVAS") {
+        return;
+      }
 
       let data = {
         id: "3",
