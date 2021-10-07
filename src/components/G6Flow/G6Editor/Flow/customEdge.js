@@ -2,7 +2,19 @@ import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
 const MIN_ARROW_SIZE = 3
 
+let runningEdgeColor = "#5FD38F"
+let commonEdgeColor = "#808080"
+function isRunning(sourceModelState, targetModelState) {
+
+  if (sourceModelState == 2 && targetModelState == 1) {
+    return true
+  } else {
+    return false
+  }
+}
 const customEdge = {
+
+
   init() {
 
     G6.registerEdge('customEdge', {
@@ -92,12 +104,12 @@ const customEdge = {
           attrs: {
             id: 'edge' + uniqueId(),
             path: path,
-            stroke: '#808080',
+            stroke: commonEdgeColor,
             lineWidth: 1,
             endArrow: {
               path: G6.Arrow.triangle(6, 4, 0),
               lineDash: [0, 0],
-              fill: '#808080',
+              fill: commonEdgeColor,
               d: 0
             }
           }
@@ -106,19 +118,16 @@ const customEdge = {
       },
       afterDraw(cfg, group) {
 
-
-
         if (cfg.targetNode == null) {
           // 拖拽连线但是未找到终点的时候，需要有这个判断
           return
         }
 
-
         const shape = group.get('children')[0];
         // 判断并启动连线动画
-        if (cfg.source.getModel().modelState == 2 && cfg.targetNode._cfg.model.modelState == 1) {
+        if (isRunning(cfg.source.getModel().modelState, cfg.targetNode._cfg.model.modelState)) {
           // 设置动画流水线图为绿色
-          shape.attr("stroke", "#5FD38F");
+          shape.attr("stroke", runningEdgeColor);
           shape.attr("lineWidth", "2");
           let index = 0;
           // 边 path 图形的动画
@@ -144,13 +153,27 @@ const customEdge = {
         }
       },
       setState(name, value, item) {
+
+
+        let running = isRunning(item._cfg.source._cfg.model.modelState, item._cfg.target._cfg.model.modelState)
+
+        // 判断该连线是否在流水中
+
+
         const group = item.getContainer();
         const shape = group.get("children")[0];
+
         const selectStyles = () => {
+
           shape.attr("stroke", "#6ab7ff");
+
         };
         const unSelectStyles = () => {
-          shape.attr("stroke", "#b8c3ce");
+          if (running) {
+            shape.attr("stroke", runningEdgeColor);
+          } else {
+            shape.attr("stroke", commonEdgeColor);
+          }
         };
 
         switch (name) {
@@ -170,12 +193,10 @@ const customEdge = {
 
     const lineDash = [10, 2];
 
-    // const lineDash = [4, 2, 1, 2];
     G6.registerEdge('link-edge', {
       draw(cfg, group) {
         let sourceNode, targetNode, start, end
 
-        // console.info(cfg)
         sourceNode = cfg.sourceNode._cfg.model
 
         start = {

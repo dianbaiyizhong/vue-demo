@@ -174,7 +174,8 @@ export default {
       this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
-        console.info("___________________");
+        
+        console.info("___________________drop");
       });
 
       this.graph.edge(() => {
