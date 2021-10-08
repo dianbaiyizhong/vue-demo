@@ -1,19 +1,27 @@
 <template>
   <div class="container">
     <!-- <ContextMenu></ContextMenu> -->
-    <Toolbar></Toolbar>
-    <splitpanes class="default-theme" style="height:100vh;width:100vw">
-      <pane size="20">
-        <NodeMenu></NodeMenu>
-      </pane>
-      <pane class="editPanel">
-        <EditorPanel :height="height" :width="width" :data="data"></EditorPanel>
-      </pane>
-      <pane size="20">
-        <Flow />
-        <DetailPanel ref="detailPanel"></DetailPanel>
-      </pane>
-    </splitpanes>
+    <header>
+      <Toolbar></Toolbar>
+    </header>
+    <main class="container__main">
+      <splitpanes class="default-theme" style="width: 100vw">
+        <pane size="20">
+          <NodeMenu></NodeMenu>
+        </pane>
+        <pane class="editPanel">
+          <EditorPanel
+            :height="height"
+            :width="width"
+            :data="data"
+          ></EditorPanel>
+        </pane>
+        <pane size="20">
+          <Flow />
+          <DetailPanel ref="detailPanel"></DetailPanel>
+        </pane>
+      </splitpanes>
+    </main>
   </div>
 </template>
 
@@ -66,20 +74,38 @@ export default {
     this.command = new command(this.editor);
 
     // var MyComponent = Vue.extend(ContextMenu)
-
-
-
-
-
-
-
-
   },
 };
 </script>
 <style scoped>
-.container {
+/* .container {
   position: absolute;
+} */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container__main {
+  /* Take the remaining height */
+  flex-grow: 1;
+
+  /* Layout the left sidebar, main content and right sidebar */
+  display: flex;
+  flex-direction: row;
+}
+
+.container__left {
+  width: 25%;
+}
+
+.container__middle {
+  /* Take the remaining width */
+  flex-grow: 1;
+}
+
+.container__right {
+  width: 20%;
 }
 </style>
 <style  lang="scss">
@@ -128,6 +154,8 @@ export default {
   }
 }
 .splitpanes.default-theme {
+  height: calc(100vh - 42px);
+
   .splitpanes__pane {
     background-color: #fff;
   }

@@ -59,8 +59,8 @@ export default {
 <style scoped>
 #navigator {
   width: 200px;
-  /* height: 176px; */
-  position: absolute;
+  height: 200px;
+  /* position: absolute; */
 
   z-index: 3;
 }

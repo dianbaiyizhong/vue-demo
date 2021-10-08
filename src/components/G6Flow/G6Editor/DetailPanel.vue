@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     setData() {
-      this.data01 = "sssssssssss___"
+      this.data01 = "sssssssssss___";
     },
   },
   created() {
@@ -51,7 +51,7 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  height: 80%;
+  height: calc(100vh - 42px);
 }
 
 .container__header,
