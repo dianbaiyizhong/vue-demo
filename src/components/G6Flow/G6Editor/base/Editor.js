@@ -24,17 +24,17 @@ export default class Editor {
   add(type, item) {
     // 可以在这里判断是否符合dag
 
-    
+
     this.graph.addItem(type, item)
   }
   addEdge(item) {
-    this.graph.add("edge", item)
+    this.graph.add("edge", item, false)
   }
   addNode(item) {
     this.graph.add("node", item)
   }
   update(item, model) {
-    this.graph.update(item, model)
+    this.graph.update(item, model, false)
   }
   remove(item) {
     const node = this.graph.findById(item.id)

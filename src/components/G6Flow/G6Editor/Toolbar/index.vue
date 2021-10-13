@@ -3,9 +3,9 @@
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_598462_3xve1872wizzolxr.css" />
 
     <svg-icon iconClass="run" class="icon" @click="handleUndo" />
-    <svg-icon iconClass="undo" class="icon" :class="undoList.length > 0 ? '' : 'disable'" @click="handleUndo" />
+    <svg-icon iconClass="undo" class="icon" :class="undoList.length > 1 ? '' : 'disable'" @click="handleUndo" />
 
-    <i class="command iconfont icon-redo" title="重做" :class="redoList.length > 0 ? '' : 'disable'" @click="handleRedo"></i>
+    <i class="command iconfont icon-redo" title="重做" :class="redoList.length > 1 ? '' : 'disable'" @click="handleRedo"></i>
     <span class="separator"></span>
     <!-- <i data-command="copy" class="command iconfont icon-copy-o disable" title="复制"></i>
     <i data-command="paste" class="command iconfont icon-paster-o disable" title="粘贴"></i>-->
@@ -52,6 +52,7 @@ export default {
       selectedItem: null,
       multiSelect: false,
       addGroup: false,
+      isHasUndo: false,
     };
   },
   created() {
@@ -75,6 +76,13 @@ export default {
     },
     bindEvent() {
       let self = this;
+      eventBus.$on("drop", (data) => {
+        self.isHasUndo = true;
+        this.redoList = self.graph.getStackData().redoStack;
+        this.undoList = self.graph.getStackData().undoStack;
+
+        console.info(self.graph.getStackData());
+      });
       eventBus.$on("afterAddPage", (page) => {
         self.page = page;
         self.graph = self.page.graph;
@@ -125,14 +133,13 @@ export default {
       });
     },
     handleUndo() {
-      // if (this.undoList.length > 0) this.command.undo();
       let graph = this.graph;
+
       const undoStack = this.graph.getUndoStack();
 
-      console.info(undoStack);
-      if (!undoStack || undoStack.length === 1) {
-        return;
-      }
+      // if (!undoStack || undoStack.length === 1) {
+      //   return;
+      // }
 
       const currentData = undoStack.pop();
       if (currentData) {
@@ -208,9 +215,99 @@ export default {
           default:
         }
       }
+      this.undoList = graph.getStackData().undoStack;
+
+      console.info(graph.getStackData());
     },
     handleRedo() {
-      if (this.redoList.length > 0) this.command.redo();
+      let graph = this.graph;
+      const redoStack = graph.getRedoStack();
+
+      if (!redoStack || redoStack.length === 0) {
+        return;
+      }
+
+      const currentData = redoStack.pop();
+      if (currentData) {
+        const { action } = currentData;
+        let data = currentData.data.after;
+        graph.pushStack(action, clone(currentData.data));
+        if (action === "delete") {
+          data = currentData.data.before;
+        }
+
+        if (!data) return;
+
+        switch (action) {
+          case "visible": {
+            Object.keys(data).forEach((key) => {
+              const array = data[key];
+              if (!array) return;
+              array.forEach((model) => {
+                const item = graph.findById(model.id);
+                if (model.visible) {
+                  graph.showItem(item, false);
+                } else {
+                  graph.hideItem(item, false);
+                }
+              });
+            });
+            break;
+          }
+          case "render":
+          case "update":
+            Object.keys(data).forEach((key) => {
+              const array = data[key];
+              if (!array) return;
+              array.forEach((model) => {
+                graph.updateItem(model.id, model, false);
+              });
+            });
+            break;
+          case "changedata":
+            graph.changeData(data, false);
+            break;
+          case "delete":
+            if (data.edges) {
+              data.edges.forEach((model) => {
+                graph.removeItem(model.id, false);
+              });
+            }
+            if (data.nodes) {
+              data.nodes.forEach((model) => {
+                graph.removeItem(model.id, false);
+              });
+            }
+            if (data.combos) {
+              data.combos.forEach((model) => {
+                graph.removeItem(model.id, false);
+              });
+            }
+            break;
+          case "add": {
+            Object.keys(data).forEach((key) => {
+              const array = data[key];
+              if (!array) return;
+              array.forEach((model) => {
+                const itemType = model.itemType;
+                delete model.itemType;
+                graph.addItem(itemType, model, false);
+              });
+            });
+            break;
+          }
+          case "updateComboTree":
+            Object.keys(data).forEach((key) => {
+              const array = data[key];
+              if (!array) return;
+              array.forEach((model) => {
+                graph.updateComboTree(model.id, model.parentId, false);
+              });
+            });
+            break;
+          default:
+        }
+      }
     },
     handleDelete() {
       if (this.selectedItem.length > 0) {

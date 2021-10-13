@@ -6,6 +6,7 @@
 import G6 from "@antv/g6";
 import { initBehavors } from "./behavior";
 import axios from "axios";
+import eventBus from "./utils/eventBus";
 
 export default {
   data() {
@@ -115,7 +116,7 @@ export default {
         container: "graph-container",
         height: height,
         width: width,
-        enableStack: true,
+        // enableStack: true,
         enabledStack: true,
         plugins: [contextMenu, grid], // 配置 Tooltip 插件
         defaultEdge: {
@@ -149,7 +150,7 @@ export default {
             "drag-node-with-combo",
             {
               type: "drag-node",
-              enableStack: true,
+              // enableStack: true,
             },
           ],
           mulitSelect: ["mulit-select"],
@@ -180,6 +181,7 @@ export default {
 
       this.graph.on("drop", (e) => {
         console.info("___________________drop");
+        eventBus.$emit("drop", e);
       });
 
       this.graph.edge(() => {
@@ -239,6 +241,9 @@ export default {
       // 根据网络请求得到数据
       axios.get("/mock/getFlowJson").then(function (resp) {
         that.graph.read(resp.data.data);
+
+        // that.graph.clearStack();
+        console.info(that.graph.getStackData());
 
         // 这是一个子组件，给另外的子组件赋值呢
         that.$parent.$parent.$parent.$refs.detailPanel.setData();
