@@ -1,8 +1,10 @@
 <template>
   <div class="toolbar">
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_598462_3xve1872wizzolxr.css" />
-    <i class="iconfont command icon_run" title="运行" @click="start"></i>
-    <i class="command iconfont icon-hadoop" title="撤销" :class="undoList.length > 0 ? '' : 'disable'" @click="handleUndo"></i>
+
+    <svg-icon iconClass="run" class="icon" @click="handleUndo" />
+    <svg-icon iconClass="undo" class="icon" :class="undoList.length > 0 ? '' : 'disable'" @click="handleUndo" />
+
     <i class="command iconfont icon-redo" title="重做" :class="redoList.length > 0 ? '' : 'disable'" @click="handleRedo"></i>
     <span class="separator"></span>
     <!-- <i data-command="copy" class="command iconfont icon-copy-o disable" title="复制"></i>
@@ -30,11 +32,14 @@
 
 <script>
 import G6 from "@antv/g6";
-import { clone, isString } from '@antv/util';
+import { clone, isString } from "@antv/util";
 
 import eventBus from "../utils/eventBus";
 import Util from "@antv/util";
 import { uniqueId, getBox } from "../utils";
+
+import "./icons";
+
 export default {
   data() {
     return {
@@ -121,7 +126,7 @@ export default {
     },
     handleUndo() {
       // if (this.undoList.length > 0) this.command.undo();
-      let graph = this.graph
+      let graph = this.graph;
       const undoStack = this.graph.getUndoStack();
 
       console.info(undoStack);
@@ -365,6 +370,22 @@ export default {
     border: 1px solid rgba(2, 2, 2, 0);
   }
   .command:hover {
+    cursor: pointer;
+    border: 1px solid #e9e9e9;
+  }
+
+  .icon {
+    box-sizing: border-box;
+    width: 27px;
+    height: 27px;
+    margin: 0px 6px;
+    padding-left: 2px;
+    padding-right: 2px;
+
+    border-radius: 2px;
+    border: 1px solid rgba(2, 2, 2, 0);
+  }
+  .icon:hover {
     cursor: pointer;
     border: 1px solid #e9e9e9;
   }
