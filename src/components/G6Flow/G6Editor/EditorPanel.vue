@@ -115,6 +115,8 @@ export default {
         container: "graph-container",
         height: height,
         width: width,
+        enableStack: true,
+        enabledStack: true,
         plugins: [contextMenu, grid], // 配置 Tooltip 插件
         defaultEdge: {
           type: "quadratic",
@@ -142,10 +144,13 @@ export default {
             "keyboard",
             "customer-events",
             "add-menu",
-            "drag-node",
             "drag-combo",
             "collapse-expand-combo",
             "drag-node-with-combo",
+            {
+              type: "drag-node",
+              enableStack: true,
+            },
           ],
           mulitSelect: ["mulit-select"],
           addEdge: ["add-edge"],
