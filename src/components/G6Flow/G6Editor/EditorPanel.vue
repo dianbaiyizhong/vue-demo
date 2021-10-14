@@ -1,5 +1,5 @@
 <template>
-  <div :id="pageId" class="graph-container" style="position: relative"></div>
+  <div :id="pageId" class="graph-container"></div>
 </template>
 
 <script>
@@ -44,7 +44,7 @@ export default {
   methods: {
     init() {
       const height = this.height - 42;
-      const width = this.width - 400;
+      const width = this.width;
       const grid = new G6.Grid();
 
       const tooltip = new G6.Tooltip({
@@ -107,8 +107,8 @@ export default {
           return true;
         },
         handleMenuClick: (target, item) => {},
-        offsetX: -350,
-        offsetY: -120,
+        offsetX: 0,
+        offsetY: 0,
         itemTypes: ["node", "edge"],
       });
 
