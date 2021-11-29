@@ -148,6 +148,7 @@ export default {
             "drag-combo",
             "collapse-expand-combo",
             "drag-node-with-combo",
+            "click-select",
             {
               type: "drag-node",
               // enableStack: true,
@@ -176,8 +177,37 @@ export default {
         }
       });
 
+      this.graph.on("combo:dragend", (e) => {
+        that.graph.getCombos().forEach((combo) => {
+          that.graph.setItemState(combo, "dragenter", false);
+        });
+      });
+
+      this.graph.on("node:dragend", (e) => {
+        that.graph.getCombos().forEach((combo) => {
+          that.graph.setItemState(combo, "dragenter", false);
+        });
+      });
+
+      this.graph.on("combo:dragenter", (e) => {
+        that.graph.setItemState(e.item, "dragenter", true);
+      });
+      this.graph.on("combo:dragleave", (e) => {
+        that.graph.setItemState(e.item, "dragenter", false);
+      });
+
+      this.graph.on("combo:mouseenter", (evt) => {
+        const { item } = evt;
+        that.graph.setItemState(item, "active", true);
+      });
+
+      this.graph.on("combo:mouseleave", (evt) => {
+        const { item } = evt;
+        that.graph.setItemState(item, "active", false);
+      });
+
       // 解决残影问题
-      this.graph.get("canvas").set("localRefresh", false);
+      //  this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
         console.info("___________________drop");
