@@ -2,7 +2,7 @@
   <div class="toolbar">
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_598462_3xve1872wizzolxr.css" />
 
-    <svg-icon iconClass="run" class="icon" @click="handleUndo" />
+    <svg-icon disable="true" iconClass="run" @click="handleUndo" />
     <svg-icon iconClass="undo" class="icon" :class="undoList.length > 1 ? '' : 'disable'" @click="handleUndo" />
 
     <i class="command iconfont icon-redo" title="重做" :class="redoList.length > 1 ? '' : 'disable'" @click="handleRedo"></i>

@@ -1,5 +1,5 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true" v-on="$listeners">
+  <svg v-bind:class="[svgClass ,colorName , disableName]" aria-hidden="true" v-on="$listeners">
     <use :xlink:href="iconName" />
   </svg>
 </template>
@@ -8,6 +8,15 @@
 export default {
   name: "SvgIcon",
   props: {
+    disable: {
+      type: Boolean,
+      default: false,
+    },
+
+    iconColor: {
+      type: String,
+      default: "blue",
+    },
     iconClass: {
       type: String,
       required: true,
@@ -18,6 +27,16 @@ export default {
     },
   },
   computed: {
+    disableName() {
+      if (this.disable) {
+        return "icon-disable";
+      } else {
+        return "icon-enable";
+      }
+    },
+    colorName() {
+      return "icon-color-" + this.iconColor;
+    },
     iconName() {
       return `#icon-${this.iconClass}`;
     },
@@ -46,10 +65,24 @@ export default {
   fill: currentColor;
   overflow: hidden;
 }
-
+.icon-color-blue {
+  color: blue;
+}
 .svg-external-icon {
   background-color: currentColor;
   mask-size: cover !important;
   display: inline-block;
+}
+
+.icon-enable {
+  color: blue;
+
+  cursor: pointer;
+}
+
+.icon-disable {
+  color: #808080;
+
+  cursor: not-allowed;
 }
 </style>
