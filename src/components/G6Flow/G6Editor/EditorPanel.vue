@@ -1,11 +1,12 @@
 <template>
-  <div :id="pageId" class="graph-container" style="position: relative"></div>
+  <div :id="pageId" class="graph-container"></div>
 </template>
 
 <script>
 import G6 from "@antv/g6";
 import { initBehavors } from "./behavior";
 import axios from "axios";
+import eventBus from "./utils/eventBus";
 
 export default {
   data() {
@@ -43,7 +44,7 @@ export default {
   methods: {
     init() {
       const height = this.height - 42;
-      const width = this.width - 400;
+      const width = this.width;
       const grid = new G6.Grid();
 
       const tooltip = new G6.Tooltip({
@@ -106,8 +107,8 @@ export default {
           return true;
         },
         handleMenuClick: (target, item) => {},
-        offsetX: -350,
-        offsetY: -120,
+        offsetX: 0,
+        offsetY: 0,
         itemTypes: ["node", "edge"],
       });
 
@@ -115,6 +116,8 @@ export default {
         container: "graph-container",
         height: height,
         width: width,
+        // enableStack: true,
+        enabledStack: true,
         plugins: [contextMenu, grid], // 配置 Tooltip 插件
         defaultEdge: {
           type: "quadratic",
@@ -142,10 +145,14 @@ export default {
             "keyboard",
             "customer-events",
             "add-menu",
-            "drag-node",
             "drag-combo",
             "collapse-expand-combo",
             "drag-node-with-combo",
+            "click-select",
+            {
+              type: "drag-node",
+              // enableStack: true,
+            },
           ],
           mulitSelect: ["mulit-select"],
           addEdge: ["add-edge"],
@@ -170,11 +177,41 @@ export default {
         }
       });
 
+      this.graph.on("combo:dragend", (e) => {
+        that.graph.getCombos().forEach((combo) => {
+          that.graph.setItemState(combo, "dragenter", false);
+        });
+      });
+
+      this.graph.on("node:dragend", (e) => {
+        that.graph.getCombos().forEach((combo) => {
+          that.graph.setItemState(combo, "dragenter", false);
+        });
+      });
+
+      this.graph.on("combo:dragenter", (e) => {
+        that.graph.setItemState(e.item, "dragenter", true);
+      });
+      this.graph.on("combo:dragleave", (e) => {
+        that.graph.setItemState(e.item, "dragenter", false);
+      });
+
+      this.graph.on("combo:mouseenter", (evt) => {
+        const { item } = evt;
+        that.graph.setItemState(item, "active", true);
+      });
+
+      this.graph.on("combo:mouseleave", (evt) => {
+        const { item } = evt;
+        that.graph.setItemState(item, "active", false);
+      });
+
       // 解决残影问题
-      this.graph.get("canvas").set("localRefresh", false);
+      //  this.graph.get("canvas").set("localRefresh", false);
 
       this.graph.on("drop", (e) => {
         console.info("___________________drop");
+        eventBus.$emit("drop", e);
       });
 
       this.graph.edge(() => {
@@ -234,6 +271,9 @@ export default {
       // 根据网络请求得到数据
       axios.get("/mock/getFlowJson").then(function (resp) {
         that.graph.read(resp.data.data);
+
+        // that.graph.clearStack();
+        console.info(that.graph.getStackData());
 
         // 这是一个子组件，给另外的子组件赋值呢
         that.$parent.$parent.$parent.$refs.detailPanel.setData();

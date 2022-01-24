@@ -1,4 +1,5 @@
 import G6 from '@antv/g6';
+import okSvg from "../assets/icons/ok.svg";
 
 /**
  * The demo shows customing a combo type by extending the built-in circle combo
@@ -65,6 +66,12 @@ const customCombo = {
                         draggable: true,
                         name: 'combo-marker-shape',
                     });
+
+
+                  
+
+
+
                     return rect;
                 },
                 // Define the updating logic of the right circle
