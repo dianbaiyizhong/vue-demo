@@ -8,7 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "3d-force-graph": "^1.70.2",
     "@antv/g6": "^4.4.1",
     "@antv/x6": "^1.28.1",
     "@fortawesome/fontawesome": "^1.1.8",
@@ -16,12 +15,15 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/vue-fontawesome": "^2.0.2",
+    "@selectize/selectize": "^0.13.6",
+    "3d-force-graph": "^1.70.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.1",
     "font-awesome": "^4.7.0",
     "insert-css": "^2.0.0",
-    "jquery": "3.3.1",
+    "jquery": "^3.3.1",
+    "jquery-ui-dist": "^1.13.1",
     "lodash": "^4.17.21",
     "monaco-editor": "^0.25.2",
     "monaco-editor-webpack-plugin": "^4.0.0",
@@ -44,9 +46,9 @@
     "eslint-plugin-vue": "^6.2.2",
     "mockjs": "^1.1.0",
     "node-sass": "^4.14.1",
-    "vue-template-compiler": "^2.6.11",
+    "sass-loader": "^8.0.2",
     "splitpanes": "^2.3.8",
-    "sass-loader": "^8.0.2"
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
