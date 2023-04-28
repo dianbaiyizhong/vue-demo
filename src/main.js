@@ -6,10 +6,10 @@ import 'reset-css';
 // import App from './components/rxjs/RxJsDemo'
 // import App from './components/g6'
 // import App from './components/Nprogress'
-// import App from './components/G6Flow/Index'
+import App from './components/G6Flow/Index'
 // import App from './components/Datablood/Index3'
 // import App from './DropzoneDemo'
-import App from './App5'
+// import App from './App4'
 
 require('./mock');
 

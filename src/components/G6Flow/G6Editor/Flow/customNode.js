@@ -1,7 +1,7 @@
 import G6 from "@antv/g6";
 import { uniqueId } from '../utils'
 import okSvg from "../assets/icons/ok.svg";
-import hiveSvg from "../assets/icons/hive.svg";
+import hiveSvg from "../assets/icons/hive.png";
 import loadingSvg from "../assets/icons/loading.svg";
 import sparkSvg from "../assets/icons/apachespark.svg";
 import hadoopSvg from "../assets/icons/hadoop.svg";
