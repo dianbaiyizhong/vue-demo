@@ -6,10 +6,11 @@ import 'reset-css';
 // import App from './components/rxjs/RxJsDemo'
 // import App from './components/g6'
 // import App from './components/Nprogress'
-import App from './components/G6Flow/Index'
+// import App from './components/G6Flow/Index'
 // import App from './components/Datablood/Index3'
 // import App from './DropzoneDemo'
 // import App from './App4'
+import App from './Tinymce.vue'
 
 require('./mock');
 
@@ -17,11 +18,13 @@ Vue.config.productionTip = false
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.use(ElementUI)
 
 import _ from 'lodash'
+
 Vue.prototype._ = _
 
 new Vue({
-  render: h => h(App),
+    render: h => h(App),
 }).$mount('#app')

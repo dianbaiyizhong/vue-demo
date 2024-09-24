@@ -2,20 +2,8 @@ let webpack = require('webpack');
 var path = require('path')
 
 module.exports = {
-    // devServer: {
-    //     open: true,
-    //     host: 'localhost',
-    //     port: 8080,
-    //     https: false,
-    //     proxy: {
-    //         '/api': {
-    //             target: 'http://localhost:8080',
-    //             pathRewrite: {
-    //                 '^/api': '/mock'
-    //             }
-    //         }
-    //     }
-    // },
+    lintOnSave: false,
+
     chainWebpack(config) {
 
         let dir = path.resolve(__dirname, 'src/components/G6Flow/G6Editor/Toolbar/icons')
